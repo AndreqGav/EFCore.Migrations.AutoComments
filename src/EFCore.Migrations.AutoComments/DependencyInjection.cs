@@ -8,7 +8,6 @@ using EFCore.Migrations.AutoComments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-// ReSharper disable once CheckNamespace
 namespace EFCore.Migrations.AutoComments;
 
 public static class DependencyInjection

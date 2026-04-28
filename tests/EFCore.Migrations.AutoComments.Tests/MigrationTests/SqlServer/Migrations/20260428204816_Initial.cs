@@ -4,10 +4,8 @@
 
 namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migrations
 {
-    /// <inheritdoc />
     public partial class Initial : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -50,7 +48,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migratio
                 {
                     Id = table.Column<int>(type: "int", nullable: false, comment: "Идентификатор.")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Discriminator = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TextA = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Текст А."),
                     TextB = table.Column<string>(type: "nvarchar(max)", nullable: true, comment: "Текст Б.")
                 },
@@ -61,7 +59,6 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migratio
                 comment: "Базовый тип в наследовании TPH.");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

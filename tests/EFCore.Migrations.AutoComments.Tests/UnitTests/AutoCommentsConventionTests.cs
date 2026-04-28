@@ -254,7 +254,8 @@ internal sealed class AutoCommentsContext : DbContext
         // Ручной комментарий - конвенция не должна его перезаписывать
         modelBuilder.Entity<Blog>(builder =>
         {
-            builder.ToTable("Blogs", t => t.HasComment("Блог (ручной комментарий)"));
+            builder.HasComment("Блог (ручной комментарий)");
+            builder.ToTable("Blogs");
             builder.Property(b => b.Url).HasComment("URL (ручной комментарий)");
         });
 

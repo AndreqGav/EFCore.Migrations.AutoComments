@@ -66,10 +66,9 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
             if (comment == null) return;
 
             var root = entityType.Builder.Metadata.GetRootType();
-            var mappingStrategy = root.GetMappingStrategy();
 
             // Для TPH выставляем комментарий всей цепочке наследования.
-            if (mappingStrategy == RelationalAnnotationNames.TphMappingStrategy)
+            if (IsTph(root))
             {
                 var derivedTypes = root.GetDerivedTypesInclusive().ToList();
 
@@ -86,7 +85,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
         void MergeTphComments(IConventionEntityType entityType)
         {
-            if (entityType.GetRootType().GetMappingStrategy() != RelationalAnnotationNames.TphMappingStrategy) return;
+            if (!IsTph(entityType.GetRootType())) return;
 
             var root = entityType.Builder.Metadata.GetRootType();
 
@@ -131,21 +130,12 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
             if (ownerType is null || navigationProperty is null) continue;
 
-            if (ownedEntityType.IsMappedToJson())
+            // Если Owned маппится на свою таблицу, то указываем ей комментарий от Owned
+            if (!HasSameTable(ownedEntityType, ownerType))
             {
-                var comment = _xmlReader.GetPropertyComment(ownerType.ClrType, navigationProperty.Name);
+                var comment = _xmlReader.GetTypeComment(ownedEntityType.ClrType);
 
                 SetOwnedComment(ownedEntityType, comment);
-            }
-            else
-            {
-                // Если Owned маппится на свою таблицу, то указываем ей комментарий от Owned
-                if (!HasSameTable(ownedEntityType, ownerType))
-                {
-                    var comment = _xmlReader.GetTypeComment(ownedEntityType.ClrType);
-
-                    SetOwnedComment(ownedEntityType, comment);
-                }
             }
         }
 
@@ -176,11 +166,6 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
             {
                 HandleProperty(property);
             }
-
-            foreach (var complexProperty in entityType.GetComplexProperties())
-            {
-                HandleComplexProperty(complexProperty.ComplexType);
-            }
         }
 
         return;
@@ -196,21 +181,6 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
             MergeTphComments(property);
 
             MergeTableSplittingComments(property);
-        }
-
-        void HandleComplexProperty(IConventionTypeBase complexType)
-        {
-            if (complexType.IsMappedToJson()) return;
-
-            foreach (var property in complexType.GetProperties())
-            {
-                HandleProperty(property);
-            }
-
-            foreach (var complexProperty in complexType.GetComplexProperties())
-            {
-                HandleComplexProperty(complexProperty.ComplexType);
-            }
         }
 
         bool HasConfiguredComment(IConventionProperty property)
@@ -246,7 +216,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
         void MergeTphComments(IConventionProperty entityProperty)
         {
-            if (entityProperty.DeclaringType.GetRootType().GetMappingStrategy() != RelationalAnnotationNames.TphMappingStrategy) return;
+            if (!IsTph(GetRootEntityType(entityProperty.DeclaringType))) return;
 
             var properties = allEntityTypes.SelectMany(GetFlattenedProperties)
                 .Where(x => HasSameColumn(entityProperty, x))
@@ -286,14 +256,9 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
     private static IEnumerable<IConventionProperty> GetFlattenedProperties(IConventionTypeBase entityType)
     {
-        foreach (var property in entityType.GetProperties())
+        if (entityType is IConventionEntityType entity)
         {
-            yield return property;
-        }
-
-        foreach (var complexProperty in entityType.GetComplexProperties())
-        {
-            foreach (var property in GetFlattenedProperties(complexProperty.ComplexType))
+            foreach (var property in entity.GetProperties())
             {
                 yield return property;
             }
@@ -304,23 +269,28 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
     {
         if (entityTypeA == entityTypeB) return true;
 
-        var storeObjectA = StoreObjectIdentifier.Create(entityTypeA, StoreObjectType.Table);
-        var storeObjectB = StoreObjectIdentifier.Create(entityTypeB, StoreObjectType.Table);
-
-        if (storeObjectA == null || storeObjectB == null)
+        if (entityTypeA is IConventionEntityType entityA && entityTypeB is IConventionEntityType entityB)
         {
-            return false;
+            var storeObjectA = StoreObjectIdentifier.Create(entityA, StoreObjectType.Table);
+            var storeObjectB = StoreObjectIdentifier.Create(entityB, StoreObjectType.Table);
+
+            if (storeObjectA == null || storeObjectB == null)
+            {
+                return false;
+            }
+
+            return storeObjectA.Value == storeObjectB.Value;
         }
 
-        return storeObjectA.Value == storeObjectB.Value;
+        return false;
     }
 
     private static bool HasSameColumn(IConventionProperty propertyA, IConventionProperty propertyB)
     {
         if (propertyA == propertyB) return true;
 
-        var storeObjectA = StoreObjectIdentifier.Create(propertyA.DeclaringType, StoreObjectType.Table);
-        var storeObjectB = StoreObjectIdentifier.Create(propertyB.DeclaringType, StoreObjectType.Table);
+        var storeObjectA = StoreObjectIdentifier.Create(propertyA.DeclaringEntityType, StoreObjectType.Table);
+        var storeObjectB = StoreObjectIdentifier.Create(propertyB.DeclaringEntityType, StoreObjectType.Table);
 
         if (storeObjectA == null || storeObjectB == null || storeObjectA.Value != storeObjectB.Value)
         {
@@ -352,16 +322,8 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
                 continue;
             }
 
-            var mappingStrategy = entityType.GetMappingStrategy();
-
             // Пропускаем дочерние классы в наследовании TPH 
-            if (mappingStrategy == RelationalAnnotationNames.TphMappingStrategy && entityType.BaseType != null)
-            {
-                continue;
-            }
-
-            // Пропускаем абстрактные классы в наследовании TPC 
-            if (mappingStrategy == RelationalAnnotationNames.TpcMappingStrategy && !IsInstantiable(entityType.ClrType))
+            if (IsTph(entityType.GetRootType()) && entityType.BaseType != null)
             {
                 continue;
             }
@@ -369,15 +331,6 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
             yield return entityType;
         }
     }
-
-    private static bool IsInstantiable(Type type)
-    {
-        if (type == null || type.IsAbstract || type.IsInterface)
-            return false;
-
-        return !type.IsGenericType || !type.IsGenericTypeDefinition;
-    }
-
 
     private string GetEnumDescriptionComment(IConventionProperty property, string baseComment)
     {
@@ -414,5 +367,22 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         var comment = sb.ToString().Trim();
 
         return string.IsNullOrEmpty(comment) ? null : comment;
+    }
+
+    IConventionEntityType GetRootEntityType(IConventionTypeBase typeBase)
+    {
+        if (typeBase is IConventionEntityType entityType)
+        {
+            return entityType.GetRootType();
+        }
+
+        return null;
+    }
+
+    private static bool IsTph(IConventionEntityType root)
+    {
+        var derivedTypes = root.GetDerivedTypesInclusive().ToList();
+
+        return derivedTypes.Any() && derivedTypes.All(d => d.GetTableName() == root.GetTableName());
     }
 }
