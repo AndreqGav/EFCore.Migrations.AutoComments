@@ -5,10 +5,25 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations
 {
+    /// <inheritdoc />
     public partial class Initial : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ArticleBase",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор.")
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArticleBase", x => x.Id);
+                },
+                comment: "Базовый тип в наследовании TPT.");
+
             migrationBuilder.CreateTable(
                 name: "Blogs",
                 columns: table => new
@@ -73,10 +88,55 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
                     table.PrimaryKey("PK_PostBase", x => x.Id);
                 },
                 comment: "Базовый тип в наследовании TPH.");
+
+            migrationBuilder.CreateTable(
+                name: "ArticleA",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор."),
+                    ContentA = table.Column<string>(type: "text", nullable: true, comment: "Специфичное содержимое А.")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArticleA", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ArticleA_ArticleBase_Id",
+                        column: x => x.Id,
+                        principalTable: "ArticleBase",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "Наследник А в TPT.");
+
+            migrationBuilder.CreateTable(
+                name: "ArticleB",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор."),
+                    ContentB = table.Column<string>(type: "text", nullable: true, comment: "Специфичное содержимое Б.")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArticleB", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ArticleB_ArticleBase_Id",
+                        column: x => x.Id,
+                        principalTable: "ArticleBase",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "Наследник Б в TPT.");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ArticleA");
+
+            migrationBuilder.DropTable(
+                name: "ArticleB");
+
             migrationBuilder.DropTable(
                 name: "Blogs");
 
@@ -88,6 +148,9 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
             migrationBuilder.DropTable(
                 name: "PostBase");
+
+            migrationBuilder.DropTable(
+                name: "ArticleBase");
         }
     }
 }

@@ -193,6 +193,41 @@ public class OwnedEntityConventionTests
     }
 
     [Fact]
+    public void AutoComments_TwoOwnedFields_Should_SetColumnComments()
+    {
+        // Arrange
+        using var context = new TwoOwnedPlainContext(BuildOptions<TwoOwnedPlainContext>());
+
+        // Act + Assert
+        Assert.Equal("Улица.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.ShippingAddress), nameof(Address.Street)));
+        Assert.Equal("Город.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.ShippingAddress), nameof(Address.City)));
+        Assert.Equal("Улица.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress), nameof(Address.Street)));
+        Assert.Equal("Город.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress), nameof(Address.City)));
+    }
+
+    [Fact]
+    public void AutoComments_TwoOwnedFields_Mixed_JsonField_Should_SetNavigationComment()
+    {
+        // Arrange
+        using var context = new TwoOwnedMixedContext(BuildOptions<TwoOwnedMixedContext>());
+
+        // Act + Assert
+        Assert.Equal("Адрес доставки.", GetOwnedEntityComment<CustomerOrder, Address>(context, nameof(CustomerOrder.ShippingAddress)));
+        Assert.Null(GetOwnedEntityComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress)));
+    }
+
+    [Fact]
+    public void AutoComments_TwoOwnedFields_Mixed_PlainField_Should_SetColumnComments()
+    {
+        // Arrange
+        using var context = new TwoOwnedMixedContext(BuildOptions<TwoOwnedMixedContext>());
+
+        // Act + Assert
+        Assert.Equal("Улица.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress), nameof(Address.Street)));
+        Assert.Equal("Город.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress), nameof(Address.City)));
+    }
+
+    [Fact]
     public void AutoComments_OwnerAndOwned_SamePropertyName_Should_SetDistinctComments()
     {
         // Arrange
@@ -293,6 +328,44 @@ internal sealed class SharedOwnedPlainContext : DbContext
     }
 }
 
+internal sealed class TwoOwnedJsonContext : DbContext
+{
+    public DbSet<CustomerOrder> Orders { get; set; }
+
+    public TwoOwnedJsonContext(DbContextOptions<TwoOwnedJsonContext> options) : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<CustomerOrder>(builder =>
+        {
+            builder.HasKey(e => e.Id);
+            builder.OwnsOne(o => o.ShippingAddress, owned => { owned.ToJson(); });
+            builder.OwnsOne(o => o.BillingAddress, owned => { owned.ToJson(); });
+        });
+    }
+}
+
+internal sealed class TwoOwnedMixedContext : DbContext
+{
+    public DbSet<CustomerOrder> Orders { get; set; }
+
+    public TwoOwnedMixedContext(DbContextOptions<TwoOwnedMixedContext> options) : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<CustomerOrder>(builder =>
+        {
+            builder.HasKey(e => e.Id);
+            builder.OwnsOne(o => o.ShippingAddress, owned => { owned.ToJson(); });
+            builder.OwnsOne(o => o.BillingAddress);
+        });
+    }
+}
+
 internal sealed class OwnedManualTableCommentContext : DbContext
 {
     public DbSet<Customer> Customers { get; set; }
@@ -309,7 +382,8 @@ internal sealed class OwnedManualTableCommentContext : DbContext
             builder.OwnsOne(c => c.Address, owned =>
             {
                 owned
-                    .ToTable("CustomerAddresses", o => o.Metadata.SetComment("ручной комментарий"));
+                    .ToTable("CustomerAddresses",
+                        t => t.HasComment("ручной комментарий"));
             });
         });
     }

@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Xunit;
 
-#pragma warning disable CS0618 // Type or member is obsolete
-
 namespace EFCore.Migrations.AutoComments.Tests.UnitTests;
 
 /// <summary>
@@ -179,8 +177,8 @@ internal sealed class ManualCommentSplitContext : DbContext
             builder.HasOne(p => p.Details)
                 .WithOne()
                 .HasForeignKey<ProductDetails>(d => d.Id);
-            builder.HasComment("Ручной комментарий.");
-            builder.ToTable("Products");
+
+            builder.ToTable("Products", t => t.HasComment("Ручной комментарий."));
         });
 
         modelBuilder.Entity<ProductDetails>(builder =>

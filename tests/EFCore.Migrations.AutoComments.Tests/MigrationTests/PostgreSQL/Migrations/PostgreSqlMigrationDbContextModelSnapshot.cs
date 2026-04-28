@@ -16,7 +16,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.36")
+                .HasAnnotation("ProductVersion", "7.0.20")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -40,9 +40,10 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.HasKey("Id");
 
-                    b.ToTable("Blogs");
-
-                    b.HasComment("Блог.");
+                    b.ToTable("Blogs", t =>
+                        {
+                            t.HasComment("Блог.");
+                        });
                 });
 
             modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.BlogView", b =>
@@ -64,9 +65,29 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.HasKey("Id");
 
-                    b.ToTable("BlogViews");
+                    b.ToTable("BlogViews", t =>
+                        {
+                            t.HasComment("Представление блога.");
+                        });
+                });
 
-                    b.HasComment("Представление блога.");
+            modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleBase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasComment("Идентификатор.");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ArticleBase", t =>
+                        {
+                            t.HasComment("Базовый тип в наследовании TPT.");
+                        });
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PostBase", b =>
@@ -84,11 +105,14 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.HasKey("Id");
 
-                    b.ToTable("PostBase");
+                    b.ToTable("PostBase", t =>
+                        {
+                            t.HasComment("Базовый тип в наследовании TPH.");
+                        });
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("PostBase");
 
-                    b.HasComment("Базовый тип в наследовании TPH.");
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Order", b =>
@@ -128,9 +152,38 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", t =>
+                        {
+                            t.HasComment("Заказ покупателя.");
+                        });
+                });
 
-                    b.HasComment("Заказ покупателя.");
+            modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleA", b =>
+                {
+                    b.HasBaseType("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleBase");
+
+                    b.Property<string>("ContentA")
+                        .HasColumnType("text")
+                        .HasComment("Специфичное содержимое А.");
+
+                    b.ToTable("ArticleA", t =>
+                        {
+                            t.HasComment("Наследник А в TPT.");
+                        });
+                });
+
+            modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleB", b =>
+                {
+                    b.HasBaseType("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleBase");
+
+                    b.Property<string>("ContentB")
+                        .HasColumnType("text")
+                        .HasComment("Специфичное содержимое Б.");
+
+                    b.ToTable("ArticleB", t =>
+                        {
+                            t.HasComment("Наследник Б в TPT.");
+                        });
                 });
 
             modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PostA", b =>
@@ -141,9 +194,12 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
                         .HasColumnType("text")
                         .HasComment("Текст А.");
 
-                    b.HasDiscriminator().HasValue("PostA");
+                    b.ToTable(t =>
+                        {
+                            t.HasComment("Базовый тип в наследовании TPH.");
+                        });
 
-                    b.HasComment("Базовый тип в наследовании TPH.");
+                    b.HasDiscriminator().HasValue("PostA");
                 });
 
             modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PostB", b =>
@@ -154,9 +210,30 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
                         .HasColumnType("text")
                         .HasComment("Текст Б.");
 
-                    b.HasDiscriminator().HasValue("PostB");
+                    b.ToTable(t =>
+                        {
+                            t.HasComment("Базовый тип в наследовании TPH.");
+                        });
 
-                    b.HasComment("Базовый тип в наследовании TPH.");
+                    b.HasDiscriminator().HasValue("PostB");
+                });
+
+            modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleA", b =>
+                {
+                    b.HasOne("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleBase", null)
+                        .WithOne()
+                        .HasForeignKey("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleA", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleB", b =>
+                {
+                    b.HasOne("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleBase", null)
+                        .WithOne()
+                        .HasForeignKey("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleB", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

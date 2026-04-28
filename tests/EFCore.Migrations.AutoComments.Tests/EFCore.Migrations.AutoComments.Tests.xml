@@ -14,6 +14,30 @@
             Интеграционные тесты.
             </summary>
         </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations.Initial">
+            <inheritdoc />
+        </member>
+        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migrations.Initial">
+            <inheritdoc />
+        </member>
+        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Blog">
             <summary>
             Блог.
@@ -917,6 +941,11 @@
         <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.InheritanceStrategyConventionTests">
             <summary>
             Тесты проверяют, что конвенция автокомментариев корректно обрабатывает стратегии наследования TPH, TPC, TPT
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.JsonColumnConventionTests">
+            <summary>
+            Тесты проверяют поведение конвенции автокомментариев для JSON-колонок (OwnsOne + ToJson) и комплексных типов (ComplexProperty).
             </summary>
         </member>
         <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.OwnedEntityConventionTests">

@@ -66,9 +66,10 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
             if (comment == null) return;
 
             var root = entityType.Builder.Metadata.GetRootType();
+            var mappingStrategy = root.GetMappingStrategy();
 
             // Для TPH выставляем комментарий всей цепочке наследования.
-            if (IsTph(root))
+            if (mappingStrategy == RelationalAnnotationNames.TphMappingStrategy)
             {
                 var derivedTypes = root.GetDerivedTypesInclusive().ToList();
 
@@ -85,7 +86,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
         void MergeTphComments(IConventionEntityType entityType)
         {
-            if (!IsTph(entityType.GetRootType())) return;
+            if (entityType.GetRootType().GetMappingStrategy() != RelationalAnnotationNames.TphMappingStrategy) return;
 
             var root = entityType.Builder.Metadata.GetRootType();
 
@@ -130,12 +131,21 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
             if (ownerType is null || navigationProperty is null) continue;
 
-            // Если Owned маппится на свою таблицу, то указываем ей комментарий от Owned
-            if (!HasSameTable(ownedEntityType, ownerType))
+            if (ownedEntityType.IsMappedToJson())
             {
-                var comment = _xmlReader.GetTypeComment(ownedEntityType.ClrType);
+                var comment = _xmlReader.GetPropertyComment(ownerType.ClrType, navigationProperty.Name);
 
                 SetOwnedComment(ownedEntityType, comment);
+            }
+            else
+            {
+                // Если Owned маппится на свою таблицу, то указываем ей комментарий от Owned
+                if (!HasSameTable(ownedEntityType, ownerType))
+                {
+                    var comment = _xmlReader.GetTypeComment(ownedEntityType.ClrType);
+
+                    SetOwnedComment(ownedEntityType, comment);
+                }
             }
         }
 
@@ -216,7 +226,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
         void MergeTphComments(IConventionProperty entityProperty)
         {
-            if (!IsTph(GetRootEntityType(entityProperty.DeclaringType))) return;
+            if (GetRootEntityType(entityProperty.DeclaringType).GetMappingStrategy() != RelationalAnnotationNames.TphMappingStrategy) return;
 
             var properties = allEntityTypes.SelectMany(GetFlattenedProperties)
                 .Where(x => HasSameColumn(entityProperty, x))
@@ -322,8 +332,16 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
                 continue;
             }
 
+            var mappingStrategy = entityType.GetMappingStrategy();
+
             // Пропускаем дочерние классы в наследовании TPH 
-            if (IsTph(entityType.GetRootType()) && entityType.BaseType != null)
+            if (mappingStrategy == RelationalAnnotationNames.TphMappingStrategy && entityType.BaseType != null)
+            {
+                continue;
+            }
+
+            // Пропускаем абстрактные классы в наследовании TPC 
+            if (mappingStrategy == RelationalAnnotationNames.TpcMappingStrategy && !IsInstantiable(entityType.ClrType))
             {
                 continue;
             }
@@ -331,6 +349,15 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
             yield return entityType;
         }
     }
+
+    private static bool IsInstantiable(Type type)
+    {
+        if (type == null || type.IsAbstract || type.IsInterface)
+            return false;
+
+        return !type.IsGenericType || !type.IsGenericTypeDefinition;
+    }
+
 
     private string GetEnumDescriptionComment(IConventionProperty property, string baseComment)
     {
@@ -377,12 +404,5 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         }
 
         return null;
-    }
-
-    private static bool IsTph(IConventionEntityType root)
-    {
-        var derivedTypes = root.GetDerivedTypesInclusive().ToList();
-
-        return derivedTypes.Any() && derivedTypes.All(d => d.GetTableName() == root.GetTableName());
     }
 }
