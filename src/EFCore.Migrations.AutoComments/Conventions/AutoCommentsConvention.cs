@@ -246,7 +246,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
         void MergeTphComments(IConventionProperty entityProperty)
         {
-            if (GetRootEntityType(entityProperty.DeclaringType).GetMappingStrategy() != RelationalAnnotationNames.TphMappingStrategy) return;
+            if (entityProperty.DeclaringType.GetRootType().GetMappingStrategy() != RelationalAnnotationNames.TphMappingStrategy) return;
 
             var properties = allEntityTypes.SelectMany(GetFlattenedProperties)
                 .Where(x => HasSameColumn(entityProperty, x))
@@ -414,20 +414,5 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         var comment = sb.ToString().Trim();
 
         return string.IsNullOrEmpty(comment) ? null : comment;
-    }
-
-    IConventionEntityType GetRootEntityType(IConventionTypeBase typeBase)
-    {
-        if (typeBase is IConventionEntityType entityType)
-        {
-            return entityType.GetRootType();
-        }
-
-        if (typeBase is IConventionComplexType complexType)
-        {
-            return GetRootEntityType(complexType.ComplexProperty.DeclaringType);
-        }
-
-        return null;
     }
 }

@@ -58,6 +58,26 @@ public class JsonColumnConventionTests
         Assert.Equal("Адрес доставки.", GetOwnedEntityComment<CustomerOrder, Address>(context, nameof(CustomerOrder.ShippingAddress)));
         Assert.Equal("Адрес оплаты.", GetOwnedEntityComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress)));
     }
+
+    /// <summary>
+    /// https://github.com/dotnet/efcore/issues/33375
+    /// </summary>
+    [Fact]
+    public void AutoComments_JsonComplexType_Should_NotSetPropertiesComment()
+    {
+        // Arrange
+        using var context = new ComplexTypeContext(BuildOptions<ComplexTypeContext>());
+
+        // Act
+        var ticketType = ModelAccessor.GetModel(context).FindEntityType(typeof(Ticket))!;
+        var seatComplexProp = ticketType.FindComplexProperty(nameof(Ticket.Seat))!;
+        var rowComment = seatComplexProp.ComplexType.FindProperty(nameof(SeatInfo.Row))!.GetComment();
+        var numberComment = seatComplexProp.ComplexType.FindProperty(nameof(SeatInfo.Number))!.GetComment();
+
+        // Assert
+        Assert.Null(rowComment);
+        Assert.Null(numberComment);
+    }
 }
 
 internal sealed class JsonOwnedContext : DbContext
@@ -74,6 +94,24 @@ internal sealed class JsonOwnedContext : DbContext
         {
             builder.HasKey(e => e.Id);
             builder.OwnsOne(r => r.Metadata, owned => { owned.ToJson(); });
+        });
+    }
+}
+
+internal sealed class ComplexTypeContext : DbContext
+{
+    public DbSet<Ticket> Tickets { get; set; }
+
+    public ComplexTypeContext(DbContextOptions<ComplexTypeContext> options) : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Ticket>(builder =>
+        {
+            builder.HasKey(e => e.Id);
+            builder.ComplexProperty(t => t.Seat, c => c.ToJson());
         });
     }
 }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migrations
 {
     [DbContext(typeof(SqlServerMigrationDbContext))]
-    [Migration("20260428213453_Initial")]
+    [Migration("20260428214614_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -19,7 +19,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migratio
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.15")
+                .HasAnnotation("ProductVersion", "10.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -86,7 +86,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migratio
                             t.HasComment("Базовый тип в наследовании TPH.");
                         });
 
-                    b.HasDiscriminator().HasValue("PostBase");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("PostBase");
 
                     b.UseTphMappingStrategy();
                 });

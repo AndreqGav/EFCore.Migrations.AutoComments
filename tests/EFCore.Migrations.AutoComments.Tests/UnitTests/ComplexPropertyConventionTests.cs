@@ -138,7 +138,7 @@ internal sealed class OwnerAndComplexSharedPropertyNameContext : DbContext
         modelBuilder.Entity<Product>(builder =>
         {
             builder.HasKey(e => e.Id);
-            builder.ComplexProperty(p => p.Spec, c => c.IsRequired());
+            builder.ComplexProperty(p => p.Spec, c => c.HasDiscriminator());
         });
     }
 }
@@ -156,8 +156,6 @@ internal sealed class ComplexTypeManualCommentContext : DbContext
             builder.HasKey(e => e.Id);
             builder.ComplexProperty(t => t.Seat, seat =>
             {
-                seat.IsRequired();
-                
                 seat
                     .Property(s => s.Row)
                     .HasComment("ручной комментарий");
@@ -181,13 +179,13 @@ internal sealed class MultiEntityComplexTypeContext : DbContext
         modelBuilder.Entity<Employee>(builder =>
         {
             builder.HasKey(e => e.Id);
-            builder.ComplexProperty(e => e.Contact).IsRequired();
+            builder.ComplexProperty(e => e.Contact, c => c.HasDiscriminator());
         });
 
         modelBuilder.Entity<Contractor>(builder =>
         {
             builder.HasKey(e => e.Id);
-            builder.ComplexProperty(e => e.Contact).IsRequired();
+            builder.ComplexProperty(e => e.Contact, c => c.HasDiscriminator());
         });
     }
 }
@@ -205,8 +203,8 @@ internal sealed class MultipleComplexPropsContext : DbContext
         modelBuilder.Entity<Staff>(builder =>
         {
             builder.HasKey(e => e.Id);
-            builder.ComplexProperty(s => s.HomeContact).IsRequired();
-            builder.ComplexProperty(s => s.WorkContact).IsRequired();
+            builder.ComplexProperty(s => s.HomeContact, c => c.HasDiscriminator());
+            builder.ComplexProperty(s => s.WorkContact, c => c.HasDiscriminator());
         });
     }
 }
@@ -226,8 +224,9 @@ internal sealed class NestedComplexTypeContext : DbContext
             builder.HasKey(e => e.Id);
             builder.ComplexProperty(p => p.HomeAddress, addr =>
             {
-                addr.IsRequired();
-                addr.ComplexProperty(a => a.Contact).IsRequired();
+                addr.ComplexProperty(a => a.Contact, c => c.HasDiscriminator());
+
+                addr.HasDiscriminator();
             });
         });
     }

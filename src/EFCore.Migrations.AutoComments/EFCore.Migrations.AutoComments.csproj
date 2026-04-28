@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <PackageId>EFCore.Migrations.AutoComments</PackageId>
         <Title>AutoComments</Title>
-        <Version>9.0.5</Version>
+        <Version>10.0.5</Version>
         <Authors>AndreqGav</Authors>
         <Product>EFCore.Migrations.AutoComments</Product>
         <Description>Automatic addition of comments for entities based on XML documentation file.</Description>
@@ -17,7 +17,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.0"/>
     </ItemGroup>
 
 </Project>
