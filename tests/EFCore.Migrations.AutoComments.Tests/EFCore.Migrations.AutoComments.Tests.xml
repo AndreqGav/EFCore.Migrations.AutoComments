@@ -14,18 +14,6 @@
             Интеграционные тесты.
             </summary>
         </member>
-        <member name="T:EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations.Initial">
-            <inheritdoc />
-        </member>
-        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
         <member name="T:EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migrations.Initial">
             <inheritdoc />
         </member>
