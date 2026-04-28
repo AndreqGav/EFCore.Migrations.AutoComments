@@ -28,7 +28,7 @@ public class PostgreSqlMigrationDbContext : DbContext
 
         ConfigureTphInheritance(modelBuilder);
         ConfigureTptInheritance(modelBuilder);
-        ConfigureTphInheritance(modelBuilder);
+        ConfigureTpcInheritance(modelBuilder);
     }
 
     private static void ConfigureTphInheritance(ModelBuilder modelBuilder)
@@ -53,5 +53,17 @@ public class PostgreSqlMigrationDbContext : DbContext
 
         modelBuilder.Entity<ArticleA>();
         modelBuilder.Entity<ArticleB>();
+    }
+
+    private static void ConfigureTpcInheritance(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<BlogBase>(builder =>
+        {
+            builder.HasKey(entity => entity.Id);
+            builder.UseTpcMappingStrategy();
+        });
+
+        modelBuilder.Entity<BlogA>();
+        modelBuilder.Entity<BlogB>();
     }
 }

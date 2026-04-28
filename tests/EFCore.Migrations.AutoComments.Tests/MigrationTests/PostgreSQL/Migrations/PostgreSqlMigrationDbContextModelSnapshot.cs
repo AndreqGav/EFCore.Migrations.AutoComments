@@ -16,10 +16,12 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.20")
+                .HasAnnotation("ProductVersion", "8.0.26")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.HasSequence("BlogBaseSequence");
 
             modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Blog", b =>
                 {
@@ -90,6 +92,23 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
                     b.UseTptMappingStrategy();
                 });
 
+            modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.BlogBase", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValueSql("nextval('\"BlogBaseSequence\"')")
+                        .HasComment("Идентификатор.");
+
+                    NpgsqlPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
+
+                    b.HasKey("Id");
+
+                    b.ToTable((string)null);
+
+                    b.UseTpcMappingStrategy();
+                });
+
             modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PostBase", b =>
                 {
                     b.Property<int>("Id")
@@ -101,7 +120,8 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)");
 
                     b.HasKey("Id");
 
@@ -110,7 +130,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
                             t.HasComment("Базовый тип в наследовании TPH.");
                         });
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("PostBase");
+                    b.HasDiscriminator().HasValue("PostBase");
 
                     b.UseTphMappingStrategy();
                 });
@@ -183,6 +203,34 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
                     b.ToTable("ArticleB", t =>
                         {
                             t.HasComment("Наследник Б в TPT.");
+                        });
+                });
+
+            modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.BlogA", b =>
+                {
+                    b.HasBaseType("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.BlogBase");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text")
+                        .HasComment("Имя А.");
+
+                    b.ToTable("BlogA", t =>
+                        {
+                            t.HasComment("Наследник А в TPC.");
+                        });
+                });
+
+            modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.BlogB", b =>
+                {
+                    b.HasBaseType("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.BlogBase");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text")
+                        .HasComment("Имя Б.");
+
+                    b.ToTable("BlogB", t =>
+                        {
+                            t.HasComment("Наследник Б в TPC.");
                         });
                 });
 

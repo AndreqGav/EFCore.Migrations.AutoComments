@@ -16,7 +16,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migratio
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.20")
+                .HasAnnotation("ProductVersion", "8.0.26")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -73,7 +73,8 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migratio
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.HasKey("Id");
 
@@ -82,7 +83,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migratio
                             t.HasComment("Базовый тип в наследовании TPH.");
                         });
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("PostBase");
+                    b.HasDiscriminator().HasValue("PostBase");
 
                     b.UseTphMappingStrategy();
                 });

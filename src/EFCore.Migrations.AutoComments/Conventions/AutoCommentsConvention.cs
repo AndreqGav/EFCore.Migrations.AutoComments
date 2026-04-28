@@ -176,6 +176,11 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
             {
                 HandleProperty(property);
             }
+
+            foreach (var complexProperty in entityType.GetComplexProperties())
+            {
+                HandleComplexProperty(complexProperty.ComplexType);
+            }
         }
 
         return;
@@ -191,6 +196,21 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
             MergeTphComments(property);
 
             MergeTableSplittingComments(property);
+        }
+
+        void HandleComplexProperty(IConventionTypeBase complexType)
+        {
+            if (complexType.IsMappedToJson()) return;
+
+            foreach (var property in complexType.GetProperties())
+            {
+                HandleProperty(property);
+            }
+
+            foreach (var complexProperty in complexType.GetComplexProperties())
+            {
+                HandleComplexProperty(complexProperty.ComplexType);
+            }
         }
 
         bool HasConfiguredComment(IConventionProperty property)
@@ -266,9 +286,14 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
     private static IEnumerable<IConventionProperty> GetFlattenedProperties(IConventionTypeBase entityType)
     {
-        if (entityType is IConventionEntityType entity)
+        foreach (var property in entityType.GetProperties())
         {
-            foreach (var property in entity.GetProperties())
+            yield return property;
+        }
+
+        foreach (var complexProperty in entityType.GetComplexProperties())
+        {
+            foreach (var property in GetFlattenedProperties(complexProperty.ComplexType))
             {
                 yield return property;
             }
@@ -279,28 +304,23 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
     {
         if (entityTypeA == entityTypeB) return true;
 
-        if (entityTypeA is IConventionEntityType entityA && entityTypeB is IConventionEntityType entityB)
+        var storeObjectA = StoreObjectIdentifier.Create(entityTypeA, StoreObjectType.Table);
+        var storeObjectB = StoreObjectIdentifier.Create(entityTypeB, StoreObjectType.Table);
+
+        if (storeObjectA == null || storeObjectB == null)
         {
-            var storeObjectA = StoreObjectIdentifier.Create(entityA, StoreObjectType.Table);
-            var storeObjectB = StoreObjectIdentifier.Create(entityB, StoreObjectType.Table);
-
-            if (storeObjectA == null || storeObjectB == null)
-            {
-                return false;
-            }
-
-            return storeObjectA.Value == storeObjectB.Value;
+            return false;
         }
 
-        return false;
+        return storeObjectA.Value == storeObjectB.Value;
     }
 
     private static bool HasSameColumn(IConventionProperty propertyA, IConventionProperty propertyB)
     {
         if (propertyA == propertyB) return true;
 
-        var storeObjectA = StoreObjectIdentifier.Create(propertyA.DeclaringEntityType, StoreObjectType.Table);
-        var storeObjectB = StoreObjectIdentifier.Create(propertyB.DeclaringEntityType, StoreObjectType.Table);
+        var storeObjectA = StoreObjectIdentifier.Create(propertyA.DeclaringType, StoreObjectType.Table);
+        var storeObjectB = StoreObjectIdentifier.Create(propertyB.DeclaringType, StoreObjectType.Table);
 
         if (storeObjectA == null || storeObjectB == null || storeObjectA.Value != storeObjectB.Value)
         {
@@ -401,6 +421,11 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         if (typeBase is IConventionEntityType entityType)
         {
             return entityType.GetRootType();
+        }
+
+        if (typeBase is IConventionComplexType complexType)
+        {
+            return GetRootEntityType(complexType.ComplexProperty.DeclaringType);
         }
 
         return null;

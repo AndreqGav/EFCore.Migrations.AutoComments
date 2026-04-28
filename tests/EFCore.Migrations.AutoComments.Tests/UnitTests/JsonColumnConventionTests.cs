@@ -15,7 +15,7 @@ public class JsonColumnConventionTests
     private static DbContextOptions<TContext> BuildOptions<TContext>() where TContext : DbContext
     {
         return new DbContextOptionsBuilder<TContext>()
-            .UseSqlServer("Server=localhost;Database=unit_tests;")
+            .UseSqlite("Data Source=unit_tests.db")
             .UseAutoComments()
             .Options;
     }

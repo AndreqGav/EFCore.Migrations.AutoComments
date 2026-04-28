@@ -938,6 +938,11 @@
             Тесты проверяют, что конвенция автокомментариев корректно устанавливает комментарии на таблицы и колонки на основе XML-документации.
             </summary>
         </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.ComplexPropertyConventionTests">
+            <summary>
+            Тесты для ComplexProperty.
+            </summary>
+        </member>
         <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.InheritanceStrategyConventionTests">
             <summary>
             Тесты проверяют, что конвенция автокомментариев корректно обрабатывает стратегии наследования TPH, TPC, TPT
