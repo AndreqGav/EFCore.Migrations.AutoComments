@@ -1,0 +1,1022 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EFCore.Migrations.AutoComments.Tests</name>
+    </assembly>
+    <members>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Helpers.ModelAccessor">
+            <summary>
+            Унифицированный доступ к модели EF Core для тестов, с учётом отличий между версиями фреймворка.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.IntegrationTests.IntegrationTests">
+            <summary>
+            Интеграционные тесты.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations.Initial">
+            <inheritdoc />
+        </member>
+        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migrations.Initial">
+            <inheritdoc />
+        </member>
+        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Blog">
+            <summary>
+            Блог.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Blog.Id">
+            <summary>
+            Идентификатор блога.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Blog.Name">
+            <summary>
+            Название блога.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Blog.Url">
+            <summary>
+            URL блога.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.BlogView">
+            <summary>
+            Представление блога.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.BlogView.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.BlogView.Name">
+            <summary>
+            Наименование.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.BlogView.Url">
+            <summary>
+            URL.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.EntityBase">
+            <summary>
+            Базовая сущность.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.EntityBase.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Document">
+            <summary>
+            Документ.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Document.Title">
+            <summary>
+            Заголовок.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleBase">
+            <summary>
+            Базовый тип в наследовании TPT.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleBase.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleA">
+            <summary>
+            Наследник А в TPT.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleA.ContentA">
+            <summary>
+            Специфичное содержимое А.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleB">
+            <summary>
+            Наследник Б в TPT.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.ArticleB.ContentB">
+            <summary>
+            Специфичное содержимое Б.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.BlogBase">
+            <summary>
+            Абстрактный базовый тип в наследовании TPC.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.BlogBase.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.BlogA">
+            <summary>
+            Наследник А в TPC.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.BlogA.Name">
+            <summary>
+            Имя А.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.BlogB">
+            <summary>
+            Наследник Б в TPC.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.BlogB.Name">
+            <summary>
+            Имя Б.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.NotificationBase">
+            <summary>
+            Базовое уведомление.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.NotificationBase.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.SmsNotification">
+            <summary>
+            Уведомление, отправляемое через SMS-шлюз.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.SmsNotification.Content">
+            <summary>
+            Текст сообщения для отправки.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.EmailNotification">
+            <summary>
+            Уведомление для электронной почты.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.EmailNotification.Content">
+            <summary>
+            Текст сообщения для отправки.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.SystemNotification">
+            <summary>
+            Системное уведомление о работе сервиса.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.SystemNotification.Content">
+            <summary>
+            Системный код события (INFO, WARN, ERROR).
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PaymentBase">
+            <summary>
+            Базовый тип платежа.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PaymentBase.Amount">
+            <summary>
+            Сумма.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PaymentA">
+            <summary>
+            Оплата A.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PaymentA.Extra1">
+            <summary>
+            Доп. сведения A.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PaymentA.ExtraShared">
+            <summary>
+            Общие сведения.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PaymentB">
+            <summary>
+            Оплата B.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PaymentB.Extra2">
+            <summary>
+            Доп. сведения B.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PaymentB.ExtraShared">
+            <summary>
+            Общие сведения.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PostBase">
+            <summary>
+            Базовый тип в наследовании TPH.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PostBase.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PostA">
+            <summary>
+            Наследник А.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PostA.TextA">
+            <summary>
+            Текст А.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PostB">
+            <summary>
+            Наследник Б.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PostB.TextB">
+            <summary>
+            Текст Б.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Json.ContactInfo">
+            <summary>
+            Контактная информация.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.ContactInfo.Phone">
+            <summary>
+            Телефон.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.ContactInfo.Email">
+            <summary>
+            Email.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Json.PostalAddress">
+            <summary>
+            Почтовый адрес.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.PostalAddress.Street">
+            <summary>
+            Улица.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.PostalAddress.Contact">
+            <summary>
+            Контакт.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Json.Employee">
+            <summary>
+            Сотрудник.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Employee.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Employee.Contact">
+            <summary>
+            Контакты.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Json.Contractor">
+            <summary>
+            Подрядчик.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Contractor.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Contractor.Contact">
+            <summary>
+            Контакты.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Json.Staff">
+            <summary>
+            Персонал.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Staff.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Staff.HomeContact">
+            <summary>
+            Домашние контакты.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Staff.WorkContact">
+            <summary>
+            Рабочие контакты.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Json.Person">
+            <summary>
+            Человек.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Person.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Person.HomeAddress">
+            <summary>
+            Домашний адрес.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Json.Product">
+            <summary>
+            Продукт.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Product.Id">
+            <summary>
+            Идентификатор продукта.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Product.Name">
+            <summary>
+            Название продукта.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Product.Spec">
+            <summary>
+            Характеристика.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Json.ProductSpec">
+            <summary>
+            Характеристика продукта.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.ProductSpec.Name">
+            <summary>
+            Название характеристики.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Json.Report">
+            <summary>
+            Отчёт.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Report.Id">
+            <summary>
+            Идентификатор отчёта.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Report.Metadata">
+            <summary>
+            Метаданные.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Json.ReportMetadata">
+            <summary>
+            Метаданные отчёта.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.ReportMetadata.Title">
+            <summary>
+            Заголовок отчёта.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.ReportMetadata.Author">
+            <summary>
+            Автор отчёта.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Json.Ticket">
+            <summary>
+            Билет.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.Ticket.Id">
+            <summary>
+            Идентификатор билета.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Json.SeatInfo">
+            <summary>
+            Информация о месте.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.SeatInfo.Row">
+            <summary>
+            Номер ряда.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Json.SeatInfo.Number">
+            <summary>
+            Номер места.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Order">
+            <summary>
+            Заказ покупателя.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Order.Id">
+            <summary>
+            Идентификатор заказа.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Order.Number">
+            <summary>
+            Номер заказа.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Order.TotalAmount">
+            <summary>
+                Итоговая сумма заказа в рублях.     
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Order.IsConfirmed">
+            <summary>
+            Статус подтверждения заказа.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Order.Status">
+            <summary>
+            Статус заказа.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Order.Category">
+            <summary>
+            Категория заказа.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Order.DeliveryMethod">
+            <summary>
+            Способ доставки.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.OrderCatalogView">
+            <summary>
+            Представление каталога заказов.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.OrderCatalogView.Number">
+            <summary>
+            Номер заказа.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.OrderCatalogView.TotalAmount">
+            <summary>
+            Итоговая сумма заказа в рублях.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.OrderCatalogSqlQuery">
+            <summary>
+            Запрос каталога заказов.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.OrderCatalogSqlQuery.Number">
+            <summary>
+            Номер заказа.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.OrderCatalogSqlQuery.TotalAmount">
+            <summary>
+            Итоговая сумма заказа в рублях.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.OrderStatus">
+            <summary>
+            Статус заказа.
+            </summary>
+        </member>
+        <member name="F:EFCore.Migrations.AutoComments.Tests.Models.OrderStatus.Active">
+            <summary>
+            Активный, ожидает выполнения.
+            </summary>
+        </member>
+        <member name="F:EFCore.Migrations.AutoComments.Tests.Models.OrderStatus.Completed">
+            <summary>
+            Выполнен, доставлен покупателю.
+            </summary>
+        </member>
+        <member name="F:EFCore.Migrations.AutoComments.Tests.Models.OrderStatus.Cancelled">
+            <summary>
+            Отменён, возврат средств.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.OrderCategory">
+            <summary>
+            Категория заказа.
+            </summary>
+        </member>
+        <member name="F:EFCore.Migrations.AutoComments.Tests.Models.OrderCategory.Clothing">
+            <summary>
+            Одежда.
+            </summary>
+        </member>
+        <member name="F:EFCore.Migrations.AutoComments.Tests.Models.OrderCategory.Books">
+            <summary>
+            Книги.
+            </summary>
+        </member>
+        <member name="F:EFCore.Migrations.AutoComments.Tests.Models.OrderCategory.Toys">
+            <summary>
+            Игрушки.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.DeliveryMethod">
+            <summary>
+            Способ доставки заказа.
+            </summary>
+        </member>
+        <member name="F:EFCore.Migrations.AutoComments.Tests.Models.DeliveryMethod.Pickup">
+            <summary>
+            Самовывоз из пункта выдачи.
+            </summary>
+        </member>
+        <member name="F:EFCore.Migrations.AutoComments.Tests.Models.DeliveryMethod.Courier">
+            <summary>
+            Курьерская доставка до двери.
+            </summary>
+        </member>
+        <member name="F:EFCore.Migrations.AutoComments.Tests.Models.DeliveryMethod.Post">
+            <summary>
+            Почтовая служба.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Owned.Warehouse">
+            <summary>
+            Склад.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Warehouse.Id">
+            <summary>
+            Идентификатор склада.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Warehouse.Name">
+            <summary>
+            Название склада.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Warehouse.Address">
+            <summary>
+            Адресс.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Owned.WarehouseAddress">
+            <summary>
+            Адрес склада.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.WarehouseAddress.Street">
+            <summary>
+            Улица.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.WarehouseAddress.City">
+            <summary>
+            Город.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Owned.Shipment">
+            <summary>
+            Отгрузка.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Shipment.Id">
+            <summary>
+            Идентификатор отгрузки.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Shipment.TrackNumber">
+            <summary>
+            Трек-номер.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Shipment.Address">
+            <summary>
+            Адресс.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Owned.ShipmentAddress">
+            <summary>
+            Адрес отгрузки.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.ShipmentAddress.Street">
+            <summary>
+            Улица доставки.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.ShipmentAddress.City">
+            <summary>
+            Город доставки.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Owned.Employee">
+            <summary>
+            Сотрудник.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Employee.Id">
+            <summary>
+            Идентификатор сотрудника.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Employee.Name">
+            <summary>
+            Имя сотрудника.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Employee.Department">
+            <summary>
+            Отдел.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Owned.Department">
+            <summary>
+            Отдел.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Department.Name">
+            <summary>
+            Название отдела.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Owned.ShoppingCart">
+            <summary>
+            Корзина покупок.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.ShoppingCart.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.ShoppingCart.Name">
+            <summary>
+            Название.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.ShoppingCart.Items">
+            <summary>
+            Позиции корзины.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Owned.CartItem">
+            <summary>
+            Позиция корзины.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.CartItem.ProductName">
+            <summary>
+            Название товара.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.CartItem.Quantity">
+            <summary>
+            Количество.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Owned.Address">
+            <summary>
+            Адрес.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Address.Street">
+            <summary>
+            Улица.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Address.City">
+            <summary>
+            Город.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Owned.Customer">
+            <summary>
+            Покупатель.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Customer.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Customer.Address">
+            <summary>
+            Адрес покупателя.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Owned.Supplier">
+            <summary>
+            Поставщик.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Supplier.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.Supplier.Address">
+            <summary>
+            Адрес поставщика.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Owned.CustomerOrder">
+            <summary>
+            Заказ.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.CustomerOrder.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.CustomerOrder.ShippingAddress">
+            <summary>
+            Адрес доставки.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Owned.CustomerOrder.BillingAddress">
+            <summary>
+            Адрес оплаты.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Schema.DomainInvoice">
+            <summary>
+            Счёт в домене.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Schema.DomainInvoice.Id">
+            <summary>
+            Идентификатор счёта.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Schema.DomainInvoice.Number">
+            <summary>
+            Номер счёта.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Schema.BillingInvoice">
+            <summary>
+            Счёт в биллинге.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Schema.BillingInvoice.Id">
+            <summary>
+            Идентификатор счёта.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Schema.BillingInvoice.Amount">
+            <summary>
+            Сумма счёта.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.Contract">
+            <summary>
+            Договор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.Contract.Id">
+            <summary>
+            Идентификатор договора.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.Contract.Number">
+            <summary>
+            Номер договора.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.ContractDetails">
+            <summary>
+            Договор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.ContractDetails.Id">
+            <summary>
+            Идентификатор договора.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.ContractDetails.Notes">
+            <summary>
+            Примечания к договору.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.DeviceMain">
+            <summary>
+            Сущность для мониторинга устройства.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.DeviceMain.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.DeviceMain.StateInfo">
+            <summary>
+            Текущий статус готовности устройства.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.DeviceMain.Detail">
+            <summary>
+            Подробности.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.DeviceDetail">
+            <summary>
+            Сущность для глубокой диагностики.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.DeviceDetail.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.DeviceDetail.StateInfo">
+            <summary>
+            Полный лог последнего изменения состояния.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.Product">
+            <summary>
+            Продукт.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.Product.Id">
+            <summary>
+            Идентификатор продукта.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.Product.Name">
+            <summary>
+            Название продукта.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.ProductDetails">
+            <summary>
+            Детали продукта.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.ProductDetails.Id">
+            <summary>
+            Идентификатор продукта.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.ProductDetails.Description">
+            <summary>
+            Описание продукта.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.SensorMain">
+            <summary>
+            Основная информация о датчике.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.SensorMain.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.SensorMain.Data">
+            <summary>
+            Данные в формате JSON.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.SensorDetail">
+            <summary>
+            Технические подробности датчика.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.SensorDetail.Id">
+            <summary>
+            Идентификатор.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.TableSplitting.SensorDetail.Data">
+            <summary>
+            Данные в формате JSON.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.AutoCommentsConventionTests">
+            <summary>
+            Тесты проверяют, что конвенция автокомментариев корректно устанавливает комментарии на таблицы и колонки на основе XML-документации.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.ComplexPropertyConventionTests">
+            <summary>
+            Тесты для ComplexProperty.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.InheritanceStrategyConventionTests">
+            <summary>
+            Тесты проверяют, что конвенция автокомментариев корректно обрабатывает стратегии наследования TPH, TPC, TPT
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.JsonColumnConventionTests">
+            <summary>
+            Тесты проверяют поведение конвенции автокомментариев для JSON-колонок (OwnsOne + ToJson) и комплексных типов (ComplexProperty).
+            </summary>
+        </member>
+        <member name="M:EFCore.Migrations.AutoComments.Tests.UnitTests.JsonColumnConventionTests.AutoComments_JsonComplexType_Should_NotSetPropertiesComment">
+            <summary>
+            https://github.com/dotnet/efcore/issues/33375
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.OwnedEntityConventionTests">
+            <summary>
+            Тесты проверяют, что конвенция корректно обрабатывает Owned-сущности.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.SchemaSeparationConventionTests">
+            <summary>
+            Тесты проверяют, что конвенция автокомментариев различает сущности с одинаковым именем таблицы в разных схемах.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.TableSplittingConventionTests">
+            <summary>
+            Тесты проверяют, что конвенция автокомментариев корректно обрабатывает  разбиение таблицы: две сущности используют одну таблицу.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.TypeHelperTests">
+            <summary>
+            Юнит-тесты <see cref="T:EFCore.Migrations.AutoComments.Helpers.TypeHelper"/>.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.UseAutoCommentsConfigurationTests">
+            <summary>
+            Тесты проверяют конфигурацию UseAutoComments.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.XmlCommentsReaderTests">
+            <summary>
+            Юнит-тесты <see cref="T:EFCore.Migrations.AutoComments.Helpers.XmlCommentsReader"/>.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.XmlCommentsReaderTests.AssemblySampleModel">
+            <summary>
+            Комментарий к классу.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.UnitTests.XmlCommentsReaderTests.AssemblySampleModel.Name">
+            <summary>
+            Комментарий к Name.
+            </summary>
+        </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.UnitTests.XmlCommentsReaderTests.AssemblySampleModel.Count">
+            <summary>
+            Комментарий к Count.
+            </summary>
+        </member>
+        <member name="T:EFCore.Migrations.AutoComments.Tests.UnitTests.XmlCommentsReaderTests.AssemblySampleEnum">
+            <summary>
+            Комментарий к перечислению.
+            </summary>
+        </member>
+        <member name="F:EFCore.Migrations.AutoComments.Tests.UnitTests.XmlCommentsReaderTests.AssemblySampleEnum.Value1">
+            <summary>
+            Комментарий к Value1.
+            </summary>
+        </member>
+        <member name="F:EFCore.Migrations.AutoComments.Tests.UnitTests.XmlCommentsReaderTests.AssemblySampleEnum.Value2">
+            <summary>
+            Комментарий к Value2.
+            </summary>
+        </member>
+    </members>
+</doc>
