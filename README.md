@@ -125,4 +125,4 @@ MIT © Андрей Гаврилов 2026
 
 ---
 
-> Extracted from [AndreqGav/EFCore.Migrations.Toolkit](https://github.com/AndreqGav/EFCore.Migrations.Toolkit).
+> Migrated from [AndreqGav/EFCore.Migrations.Toolkit](https://github.com/AndreqGav/EFCore.Migrations.Toolkit).
