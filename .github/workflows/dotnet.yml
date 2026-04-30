@@ -1,13 +1,17 @@
 name: Push Nuget Packages
 
+run-name: Build and Push v${{ inputs.version }}
+
 on:
-  push:
-    branches: [ "net-9" ]
   workflow_dispatch:
     inputs:
+      version:
+        description: 'Package version (e.g., 1.0.5)'
+        required: true
+        default: '1.0.0-preview'
       logLevel:
         description: 'Log level'
-        required: true
+        required: false
         default: 'warning'
 
 jobs:
@@ -74,6 +78,6 @@ jobs:
     - name: Build
       run: dotnet build -c Release
     - name: Pack
-      run: dotnet pack -c Release --output nuget-packages
+      run: dotnet pack -c Release -p:PackageVersion=${{ github.event.inputs.version }} --output nuget-packages
     - name: Push nuget packages
       run: dotnet nuget push nuget-packages/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate

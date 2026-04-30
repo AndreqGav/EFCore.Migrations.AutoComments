@@ -1,5 +1,3 @@
-using EFCore.Migrations.AutoComments.Attributes;
-
 namespace EFCore.Migrations.AutoComments.Tests.Models;
 
 /// <summary>
