@@ -90,6 +90,53 @@ public class InheritanceStrategyConventionTests
         Assert.Equal(GetTableComment<PostBase>(context), GetTableComment<PostB>(context));
     }
 
+    [Fact]
+    public void AutoComments_Tph_SameColumn_SameComment_Should_SetCommentOnBothSiblingProperties()
+    {
+        // Arrange
+        using var context = new TphSameColumnSameCommentContext(BuildOptions<TphSameColumnSameCommentContext>());
+
+        // Act
+        var propA = GetProperty<SmsNotification>(context, nameof(SmsNotification.Content));
+        var propB = GetProperty<EmailNotification>(context, nameof(EmailNotification.Content));
+
+        // Assert
+        Assert.Equal(propA.GetColumnName(), propB.GetColumnName());
+        Assert.Equal(propA.GetComment(), propB.GetComment());
+        Assert.Equal("Текст сообщения для отправки.", propB.GetComment());
+    }
+
+    [Fact]
+    public void AutoComments_Tph_SameColumn_DiffComment_Should_SetMergedComment()
+    {
+        // Arrange
+        using var context = new TphSameColumnDiffCommentContext(BuildOptions<TphSameColumnDiffCommentContext>());
+
+        // Act
+        var propA = GetProperty<SmsNotification>(context, nameof(SmsNotification.Content));
+        var propB = GetProperty<SystemNotification>(context, nameof(SystemNotification.Content));
+
+        // Assert
+        Assert.Equal(propA.GetColumnName(), propB.GetColumnName());
+        Assert.Contains("Текст сообщения для отправки.", propA.GetComment());
+        Assert.Contains("Системный код события (INFO, WARN, ERROR).", propB.GetComment());
+    }
+
+    [Fact]
+    public void AutoComments_Tph_ExplicitDiscriminator_Should_SetComment()
+    {
+        // Arrange
+        using var context = new TphSameColumnSameCommentContext(BuildOptions<TphSameColumnSameCommentContext>());
+
+        // Act
+        var propA = GetProperty<SmsNotification>(context, nameof(SmsNotification.Discriminator));
+        var propB = GetProperty<EmailNotification>(context, nameof(EmailNotification.Discriminator));
+
+        // Assert
+        Assert.Equal(propA.GetComment(), propB.GetComment());
+        Assert.Equal("Дискриминатор.", propB.GetComment());
+    }
+
 }
 
 internal sealed class TphAutoCommentsContext : DbContext
