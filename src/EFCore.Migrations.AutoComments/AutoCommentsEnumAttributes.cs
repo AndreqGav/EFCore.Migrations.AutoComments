@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EFCore.Migrations.AutoComments.Attributes;
+namespace EFCore.Migrations.AutoComments;
 
 [AttributeUsage(AttributeTargets.Property)]
 public class AutoCommentEnumDescriptionAttribute : Attribute

@@ -123,6 +123,21 @@ public class InheritanceStrategyConventionTests
     }
 
     [Fact]
+    public void AutoComments_Tph_ExplicitDiscriminator_Should_SetComment()
+    {
+        // Arrange
+        using var context = new TphSameColumnSameCommentContext(BuildOptions<TphSameColumnSameCommentContext>());
+
+        // Act
+        var propA = GetProperty<SmsNotification>(context, nameof(SmsNotification.Discriminator));
+        var propB = GetProperty<EmailNotification>(context, nameof(EmailNotification.Discriminator));
+
+        // Assert
+        Assert.Equal(propA.GetComment(), propB.GetComment());
+        Assert.Equal("Дискриминатор.", propB.GetComment());
+    }
+
+    [Fact]
     public void AutoComments_Tpt_Should_SetComment_OnBaseType()
     {
         // Arrange
@@ -205,6 +220,7 @@ internal sealed class TphSameColumnSameCommentContext : DbContext
         modelBuilder.Entity<NotificationBase>(builder =>
         {
             builder.HasKey(e => e.Id);
+            builder.HasDiscriminator(e => e.Discriminator);
             builder.UseTphMappingStrategy();
         });
 

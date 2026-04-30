@@ -9,6 +9,11 @@ public class NotificationBase
     /// Идентификатор.
     /// </summary>
     public int Id { get; set; }
+
+    /// <summary>
+    /// Дискриминатор.
+    /// </summary>
+    public string Discriminator { get; set; }
 }
 
 /// <summary>

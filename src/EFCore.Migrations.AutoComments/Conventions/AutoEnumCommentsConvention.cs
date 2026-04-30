@@ -1,5 +1,4 @@
 ﻿using System;
-using EFCore.Migrations.AutoComments.Attributes;
 using EFCore.Migrations.AutoComments.Extensions;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
