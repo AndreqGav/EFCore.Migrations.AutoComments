@@ -168,6 +168,11 @@
             Идентификатор.
             </summary>
         </member>
+        <member name="P:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.NotificationBase.Discriminator">
+            <summary>
+            Дискриминатор.
+            </summary>
+        </member>
         <member name="T:EFCore.Migrations.AutoComments.Tests.Models.Inheritance.SmsNotification">
             <summary>
             Уведомление, отправляемое через SMS-шлюз.
