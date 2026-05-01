@@ -121,7 +121,7 @@ Use `[AutoCommentEnumDescription]` on a property to enable enum descriptions for
 
 ## License
 
-MIT © Андрей Гаврилов 2026
+MIT © Andrey Gavrilov 2026
 
 ---
 
