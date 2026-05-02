@@ -1,17 +1,17 @@
 namespace EFCore.Migrations.AutoComments.Tests.Models.TableSplitting;
 
 /// <summary>
-/// Продукт.
+/// Product.
 /// </summary>
 public class Product
 {
     /// <summary>
-    /// Идентификатор продукта.
+    /// Product identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Название продукта.
+    /// Product name.
     /// </summary>
     public string Name { get; set; }
 
@@ -19,17 +19,17 @@ public class Product
 }
 
 /// <summary>
-/// Детали продукта.
+/// Product details.
 /// </summary>
 public class ProductDetails
 {
     /// <summary>
-    /// Идентификатор продукта.
+    /// Product identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Описание продукта.
+    /// Product description.
     /// </summary>
     public string Description { get; set; }
 }
