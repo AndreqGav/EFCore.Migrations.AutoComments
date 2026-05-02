@@ -1,33 +1,33 @@
 namespace EFCore.Migrations.AutoComments.Tests.Models.Schema;
 
 /// <summary>
-/// Счёт в домене.
+/// Invoice in the domain schema.
 /// </summary>
 public class DomainInvoice
 {
     /// <summary>
-    /// Идентификатор счёта.
+    /// Invoice identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Номер счёта.
+    /// Invoice number.
     /// </summary>
     public string Number { get; set; }
 }
 
 /// <summary>
-/// Счёт в биллинге.
+/// Invoice in the billing schema.
 /// </summary>
 public class BillingInvoice
 {
     /// <summary>
-    /// Идентификатор счёта.
+    /// Invoice identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Сумма счёта.
+    /// Invoice amount.
     /// </summary>
     public decimal Amount { get; set; }
 }

@@ -6,7 +6,7 @@ using Xunit;
 namespace EFCore.Migrations.AutoComments.Tests.UnitTests;
 
 /// <summary>
-/// Тесты проверяют, что конвенция автокомментариев корректно устанавливает комментарии на таблицы и колонки на основе XML-документации.
+/// Tests that the auto-comments convention sets table and column comments based on XML documentation.
 /// </summary>
 public class AutoCommentsConventionTests
 {
@@ -44,7 +44,7 @@ public class AutoCommentsConventionTests
         var comment = GetTableComment<Order>(context);
 
         // Assert
-        Assert.Equal("Заказ покупателя.", comment);
+        Assert.Equal("Customer order.", comment);
     }
 
     [Fact]
@@ -58,8 +58,8 @@ public class AutoCommentsConventionTests
         var numberComment = GetColumnComment<Order>(context, nameof(Order.Number));
 
         // Assert
-        Assert.Equal("Идентификатор заказа.", idComment);
-        Assert.Equal("Номер заказа.", numberComment);
+        Assert.Equal("Order identifier.", idComment);
+        Assert.Equal("Order number.", numberComment);
     }
 
     [Fact]
@@ -72,7 +72,7 @@ public class AutoCommentsConventionTests
         var comment = GetColumnComment<Order>(context, nameof(Order.TotalAmount));
 
         // Assert
-        Assert.Equal("Итоговая сумма заказа в рублях.", comment);
+        Assert.Equal("Total order amount.", comment);
     }
 
     [Fact]
@@ -85,10 +85,10 @@ public class AutoCommentsConventionTests
         var comment = GetColumnComment<Order>(context, nameof(Order.Status));
 
         // Assert
-        Assert.StartsWith("Статус заказа.\n", comment);
-        Assert.Contains("0 - Активный, ожидает выполнения.", comment);
-        Assert.Contains("1 - Выполнен, доставлен покупателю.", comment);
-        Assert.Contains("2 - Отменён, возврат средств.", comment);
+        Assert.StartsWith("Order status.\n", comment);
+        Assert.Contains("0 - Active, awaiting fulfillment.", comment);
+        Assert.Contains("1 - Completed, delivered to the customer.", comment);
+        Assert.Contains("2 - Cancelled, refund issued.", comment);
     }
 
     [Fact]
@@ -101,7 +101,7 @@ public class AutoCommentsConventionTests
         var comment = GetColumnComment<Order>(context, nameof(Order.Category));
 
         // Assert
-        Assert.Equal("Категория заказа.", comment);
+        Assert.Equal("Order category.", comment);
     }
 
     [Fact]
@@ -114,10 +114,10 @@ public class AutoCommentsConventionTests
         var comment = GetColumnComment<Order>(context, nameof(Order.Category));
 
         // Assert
-        Assert.StartsWith("Категория заказа.\n", comment);
-        Assert.Contains("Clothing - Одежда.", comment);
-        Assert.Contains("Books - Книги.", comment);
-        Assert.Contains("Toys - Игрушки.", comment);
+        Assert.StartsWith("Order category.\n", comment);
+        Assert.Contains("Clothing - Clothing.", comment);
+        Assert.Contains("Books - Books.", comment);
+        Assert.Contains("Toys - Toys.", comment);
     }
 
     [Fact]
@@ -130,7 +130,7 @@ public class AutoCommentsConventionTests
         var comment = GetColumnComment<Order>(context, nameof(Order.DeliveryMethod));
 
         // Assert
-        Assert.Equal("Способ доставки.", comment);
+        Assert.Equal("Delivery method.", comment);
     }
 
     [Fact]
@@ -140,7 +140,7 @@ public class AutoCommentsConventionTests
         using var context = new AutoCommentsContext(BuildOptions());
 
         // Act + Assert
-        Assert.Equal("Идентификатор.", GetColumnComment<Document>(context, nameof(EntityBase.Id)));
+        Assert.Equal("Identifier.", GetColumnComment<Document>(context, nameof(EntityBase.Id)));
     }
 
     [Fact]
@@ -153,7 +153,7 @@ public class AutoCommentsConventionTests
         var comment = GetTableComment<Blog>(context);
 
         // Assert
-        Assert.Equal("Блог (ручной комментарий)", comment);
+        Assert.Equal("Blog (manual comment)", comment);
     }
 
     [Fact]
@@ -166,7 +166,7 @@ public class AutoCommentsConventionTests
         var comment = GetColumnComment<Blog>(context, nameof(Blog.Url));
 
         // Assert
-        Assert.Equal("URL (ручной комментарий)", comment);
+        Assert.Equal("URL (manual comment)", comment);
     }
 
     [Fact]
@@ -236,7 +236,7 @@ internal sealed class AutoCommentsContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Представление - конвенция автокомментариев должна его пропускать
+        // View - the auto-comments convention must skip it.
         modelBuilder.Entity<OrderCatalogView>(builder =>
         {
             builder.HasNoKey();
@@ -251,11 +251,11 @@ internal sealed class AutoCommentsContext : DbContext
 
         modelBuilder.Entity<Order>(builder => builder.Property(e => e.Category).HasConversion<string>());
 
-        // Ручной комментарий - конвенция не должна его перезаписывать
+        // Manual comment - the convention must not overwrite it.
         modelBuilder.Entity<Blog>(builder =>
         {
-            builder.ToTable("Blogs", t => t.HasComment("Блог (ручной комментарий)"));
-            builder.Property(b => b.Url).HasComment("URL (ручной комментарий)");
+            builder.ToTable("Blogs", t => t.HasComment("Blog (manual comment)"));
+            builder.Property(b => b.Url).HasComment("URL (manual comment)");
         });
 
         modelBuilder.Entity<Document>(builder => { builder.HasKey(e => e.Id); });

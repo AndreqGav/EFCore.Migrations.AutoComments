@@ -6,44 +6,44 @@ internal abstract class EntityBase
 }
 
 /// <summary>
-/// Базовый тип платежа.
+/// Base payment type.
 /// </summary>
 internal abstract class PaymentBase : EntityBase
 {
     /// <summary>
-    /// Сумма.
+    /// Amount.
     /// </summary>
     public decimal Amount { get; set; }
 }
 
 /// <summary>
-/// Оплата A.
+/// Payment A.
 /// </summary>
 internal class PaymentA : PaymentBase
 {
     /// <summary>
-    /// Доп. сведения A.
+    /// Extra details A.
     /// </summary>
     public string Extra1 { get; set; }
     
     /// <summary>
-    /// Общие сведения.
+    /// Shared details.
     /// </summary>
     public string ExtraShared { get; set; }
 }
 
 /// <summary>
-/// Оплата B.
+/// Payment B.
 /// </summary>
 internal class PaymentB : PaymentBase
 {
     /// <summary>
-    /// Доп. сведения B.
+    /// Extra details B.
     /// </summary>
     public string Extra2 { get; set; }
     
     /// <summary>
-    /// Общие сведения.
+    /// Shared details.
     /// </summary>
     public string ExtraShared { get; set; }
 }

@@ -4,9 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace EFCore.Migrations.AutoComments.Tests.Helpers;
 
-/// <summary>
-/// Унифицированный доступ к модели EF Core для тестов, с учётом отличий между версиями фреймворка.
-/// </summary>
 static internal class ModelAccessor
 {
     public static IModel GetModel(DbContext context)
