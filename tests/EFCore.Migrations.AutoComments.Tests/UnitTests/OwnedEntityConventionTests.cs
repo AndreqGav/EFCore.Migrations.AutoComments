@@ -7,7 +7,7 @@ using Xunit;
 namespace EFCore.Migrations.AutoComments.Tests.UnitTests;
 
 /// <summary>
-/// Тесты проверяют, что конвенция корректно обрабатывает Owned-сущности.
+/// Tests that the convention correctly handles owned entities.
 /// </summary>
 public class OwnedEntityConventionTests
 {
@@ -77,7 +77,7 @@ public class OwnedEntityConventionTests
         var comment = GetTableComment<Warehouse>(context);
 
         // Assert
-        Assert.Equal("Склад.", comment);
+        Assert.Equal("Warehouse.", comment);
     }
 
     [Fact]
@@ -100,8 +100,8 @@ public class OwnedEntityConventionTests
         using var context = new SimpleOwnedContext(BuildOptions<SimpleOwnedContext>());
 
         // Act + Assert
-        Assert.Equal("Улица.", GetOwnedPropertyComment<WarehouseAddress>(context, nameof(WarehouseAddress.Street)));
-        Assert.Equal("Город.", GetOwnedPropertyComment<WarehouseAddress>(context, nameof(WarehouseAddress.City)));
+        Assert.Equal("Street.", GetOwnedPropertyComment<WarehouseAddress>(context, nameof(WarehouseAddress.Street)));
+        Assert.Equal("City.", GetOwnedPropertyComment<WarehouseAddress>(context, nameof(WarehouseAddress.City)));
     }
 
     [Fact]
@@ -114,7 +114,7 @@ public class OwnedEntityConventionTests
         var comment = GetTableComment<Shipment>(context);
 
         // Assert
-        Assert.Equal("Отгрузка.", comment);
+        Assert.Equal("Shipment.", comment);
     }
 
     [Fact]
@@ -127,7 +127,7 @@ public class OwnedEntityConventionTests
         var comment = GetOwnedEntityComment<ShipmentAddress>(context);
 
         // Assert
-        Assert.Equal("Адрес отгрузки.", comment);
+        Assert.Equal("Shipment address.", comment);
     }
 
     [Fact]
@@ -136,9 +136,9 @@ public class OwnedEntityConventionTests
         // Arrange
         using var context = new OwnedWithTableContext(BuildOptions<OwnedWithTableContext>());
 
-        // Act + Assert — SetColumnComments обходит все entity types включая owned
-        Assert.Equal("Улица доставки.", GetOwnedPropertyComment<ShipmentAddress>(context, nameof(ShipmentAddress.Street)));
-        Assert.Equal("Город доставки.", GetOwnedPropertyComment<ShipmentAddress>(context, nameof(ShipmentAddress.City)));
+        // Act + Assert
+        Assert.Equal("Shipping street.", GetOwnedPropertyComment<ShipmentAddress>(context, nameof(ShipmentAddress.Street)));
+        Assert.Equal("Shipping city.", GetOwnedPropertyComment<ShipmentAddress>(context, nameof(ShipmentAddress.City)));
     }
 
     [Fact]
@@ -151,7 +151,7 @@ public class OwnedEntityConventionTests
         var comment = GetTableComment<ShoppingCart>(context);
 
         // Assert
-        Assert.Equal("Корзина покупок.", comment);
+        Assert.Equal("Shopping cart.", comment);
     }
 
     [Fact]
@@ -164,7 +164,7 @@ public class OwnedEntityConventionTests
         var comment = GetOwnedEntityComment<CartItem>(context);
 
         // Assert
-        Assert.Equal("Позиция корзины.", comment);
+        Assert.Equal("Cart item.", comment);
     }
 
 
@@ -186,10 +186,10 @@ public class OwnedEntityConventionTests
         using var context = new SharedOwnedPlainContext(BuildOptions<SharedOwnedPlainContext>());
 
         // Act + Assert
-        Assert.Equal("Улица.", GetComment<Customer, Address>(context, nameof(Customer.Address), nameof(Address.Street)));
-        Assert.Equal("Город.", GetComment<Customer, Address>(context, nameof(Customer.Address), nameof(Address.City)));
-        Assert.Equal("Улица.", GetComment<Supplier, Address>(context, nameof(Supplier.Address), nameof(Address.Street)));
-        Assert.Equal("Город.", GetComment<Supplier, Address>(context, nameof(Supplier.Address), nameof(Address.City)));
+        Assert.Equal("Street.", GetComment<Customer, Address>(context, nameof(Customer.Address), nameof(Address.Street)));
+        Assert.Equal("City.", GetComment<Customer, Address>(context, nameof(Customer.Address), nameof(Address.City)));
+        Assert.Equal("Street.", GetComment<Supplier, Address>(context, nameof(Supplier.Address), nameof(Address.Street)));
+        Assert.Equal("City.", GetComment<Supplier, Address>(context, nameof(Supplier.Address), nameof(Address.City)));
     }
 
     [Fact]
@@ -199,10 +199,10 @@ public class OwnedEntityConventionTests
         using var context = new TwoOwnedPlainContext(BuildOptions<TwoOwnedPlainContext>());
 
         // Act + Assert
-        Assert.Equal("Улица.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.ShippingAddress), nameof(Address.Street)));
-        Assert.Equal("Город.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.ShippingAddress), nameof(Address.City)));
-        Assert.Equal("Улица.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress), nameof(Address.Street)));
-        Assert.Equal("Город.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress), nameof(Address.City)));
+        Assert.Equal("Street.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.ShippingAddress), nameof(Address.Street)));
+        Assert.Equal("City.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.ShippingAddress), nameof(Address.City)));
+        Assert.Equal("Street.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress), nameof(Address.Street)));
+        Assert.Equal("City.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress), nameof(Address.City)));
     }
 
     [Fact]
@@ -212,7 +212,7 @@ public class OwnedEntityConventionTests
         using var context = new TwoOwnedMixedContext(BuildOptions<TwoOwnedMixedContext>());
 
         // Act + Assert
-        Assert.Equal("Адрес доставки.", GetOwnedEntityComment<CustomerOrder, Address>(context, nameof(CustomerOrder.ShippingAddress)));
+        Assert.Equal("Shipping address.", GetOwnedEntityComment<CustomerOrder, Address>(context, nameof(CustomerOrder.ShippingAddress)));
         Assert.Null(GetOwnedEntityComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress)));
     }
 
@@ -223,8 +223,8 @@ public class OwnedEntityConventionTests
         using var context = new TwoOwnedMixedContext(BuildOptions<TwoOwnedMixedContext>());
 
         // Act + Assert
-        Assert.Equal("Улица.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress), nameof(Address.Street)));
-        Assert.Equal("Город.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress), nameof(Address.City)));
+        Assert.Equal("Street.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress), nameof(Address.Street)));
+        Assert.Equal("City.", GetComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress), nameof(Address.City)));
     }
 
     [Fact]
@@ -238,8 +238,8 @@ public class OwnedEntityConventionTests
         var ownedNameComment = GetOwnedPropertyComment<Department>(context, nameof(Department.Name));
 
         // Assert
-        Assert.Equal("Имя сотрудника.", ownerNameComment);
-        Assert.Equal("Название отдела.", ownedNameComment);
+        Assert.Equal("Employee name.", ownerNameComment);
+        Assert.Equal("Department name.", ownedNameComment);
     }
 
     [Fact]
@@ -254,7 +254,7 @@ public class OwnedEntityConventionTests
             .First(e => e.ClrType == typeof(Address) && e.IsOwned());
 
         // Assert
-        Assert.Equal("ручной комментарий", ownedType.GetComment());
+        Assert.Equal("manual comment", ownedType.GetComment());
     }
 
     [Fact]
@@ -267,7 +267,7 @@ public class OwnedEntityConventionTests
         var comment = GetComment<Customer, Address>(context, nameof(Customer.Address), nameof(Address.Street));
 
         // Assert
-        Assert.Equal("ручной комментарий на колонку", comment);
+        Assert.Equal("manual column comment", comment);
     }
 
     [Fact]
@@ -280,7 +280,7 @@ public class OwnedEntityConventionTests
         var cityComment = GetComment<Customer, Address>(context, nameof(Customer.Address), nameof(Address.City));
 
         // Assert
-        Assert.Equal("Город.", cityComment);
+        Assert.Equal("City.", cityComment);
     }
 }
 
@@ -383,7 +383,7 @@ internal sealed class OwnedManualTableCommentContext : DbContext
             {
                 owned
                     .ToTable("CustomerAddresses",
-                        t => t.HasComment("ручной комментарий"));
+                        t => t.HasComment("manual comment"));
             });
         });
     }
@@ -402,7 +402,7 @@ internal sealed class OwnedManualColumnCommentContext : DbContext
         modelBuilder.Entity<Customer>(builder =>
         {
             builder.HasKey(e => e.Id);
-            builder.OwnsOne(c => c.Address, owned => { owned.Property(a => a.Street).HasComment("ручной комментарий на колонку"); });
+            builder.OwnsOne(c => c.Address, owned => { owned.Property(a => a.Street).HasComment("manual column comment"); });
         });
     }
 }

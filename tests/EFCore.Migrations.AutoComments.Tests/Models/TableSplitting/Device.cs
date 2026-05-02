@@ -1,38 +1,38 @@
 ﻿namespace EFCore.Migrations.AutoComments.Tests.Models.TableSplitting;
 
 /// <summary>
-/// Сущность для мониторинга устройства.
+/// Entity for device monitoring.
 /// </summary>
 public class DeviceMain
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Текущий статус готовности устройства.
+    /// Current device readiness status.
     /// </summary>
     public string StateInfo { get; set; }
 
     /// <summary>
-    /// Подробности.
+    /// Details.
     /// </summary>
     public DeviceDetail Detail { get; set; }
 }
 
 /// <summary>
-/// Сущность для глубокой диагностики.
+/// Entity for deep diagnostics.
 /// </summary>
 public class DeviceDetail
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Полный лог последнего изменения состояния.
+    /// Full log of the latest state change.
     /// </summary>
     public string StateInfo { get; set; }
 }

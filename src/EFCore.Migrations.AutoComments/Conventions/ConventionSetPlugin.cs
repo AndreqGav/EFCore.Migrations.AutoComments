@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
 
 namespace EFCore.Migrations.AutoComments.Conventions;
 
-public class ConventionSetPlugin : IConventionSetPlugin
+internal class ConventionSetPlugin : IConventionSetPlugin
 {
     private readonly AutoCommentsExtension _extension;
 

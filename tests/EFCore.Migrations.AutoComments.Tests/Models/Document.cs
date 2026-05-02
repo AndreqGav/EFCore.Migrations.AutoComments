@@ -1,23 +1,23 @@
 namespace EFCore.Migrations.AutoComments.Tests.Models;
 
 /// <summary>
-/// Базовая сущность.
+/// Base entity.
 /// </summary>
 public abstract class EntityBase
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 }
 
 /// <summary>
-/// Документ.
+/// Document.
 /// </summary>
 public class Document : EntityBase
 {
     /// <summary>
-    /// Заголовок.
+    /// Title.
     /// </summary>
     public string Title { get; set; }
 }

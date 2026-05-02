@@ -1,70 +1,70 @@
 namespace EFCore.Migrations.AutoComments.Tests.Models.Owned;
 
 /// <summary>
-/// Адрес.
+/// Address.
 /// </summary>
 public class Address
 {
     /// <summary>
-    /// Улица.
+    /// Street.
     /// </summary>
     public string Street { get; set; }
 
     /// <summary>
-    /// Город.
+    /// City.
     /// </summary>
     public string City { get; set; }
 }
 
 /// <summary>
-/// Покупатель.
+/// Customer.
 /// </summary>
 public class Customer
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Адрес покупателя.
+    /// Customer address.
     /// </summary>
     public Address Address { get; set; }
 }
 
 /// <summary>
-/// Поставщик.
+/// Supplier.
 /// </summary>
 public class Supplier
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Адрес поставщика.
+    /// Supplier address.
     /// </summary>
     public Address Address { get; set; }
 }
 
 /// <summary>
-/// Заказ.
+/// Order.
 /// </summary>
 public class CustomerOrder
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Адрес доставки.
+    /// Shipping address.
     /// </summary>
     public Address ShippingAddress { get; set; }
 
     /// <summary>
-    /// Адрес оплаты.
+    /// Billing address.
     /// </summary>
     public Address BillingAddress { get; set; }
 }

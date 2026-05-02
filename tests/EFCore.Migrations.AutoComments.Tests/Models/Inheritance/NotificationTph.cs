@@ -1,50 +1,50 @@
 ﻿namespace EFCore.Migrations.AutoComments.Tests.Models.Inheritance;
 
 /// <summary>
-/// Базовое уведомление.
+/// Base notification.
 /// </summary>
 public class NotificationBase
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Дискриминатор.
+    /// Discriminator.
     /// </summary>
     public string Discriminator { get; set; }
 }
 
 /// <summary>
-/// Уведомление, отправляемое через SMS-шлюз.
+/// Notification sent via an SMS gateway.
 /// </summary>
 public class SmsNotification : NotificationBase
 {
     /// <summary>
-    /// Текст сообщения для отправки.
+    /// Message text to send.
     /// </summary>
     public string Content { get; set; }
 }
 
 /// <summary>
-/// Уведомление для электронной почты.
+/// Email notification.
 /// </summary>
 public class EmailNotification : NotificationBase
 {
     /// <summary>
-    /// Текст сообщения для отправки.
+    /// Message text to send.
     /// </summary>
     public string Content { get; set; }
 }
 
 /// <summary>
-/// Системное уведомление о работе сервиса.
+/// System notification about service operation.
 /// </summary>
 public class SystemNotification : NotificationBase
 {
     /// <summary>
-    /// Системный код события (INFO, WARN, ERROR).
+    /// System event code (INFO, WARN, ERROR).
     /// </summary>
     public string Content { get; set; }
 }

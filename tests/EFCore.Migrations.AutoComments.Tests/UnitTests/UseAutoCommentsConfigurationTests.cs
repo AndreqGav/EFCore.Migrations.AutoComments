@@ -7,7 +7,7 @@ using Xunit;
 namespace EFCore.Migrations.AutoComments.Tests.UnitTests;
 
 /// <summary>
-/// Тесты проверяют конфигурацию UseAutoComments.
+/// Tests for UseAutoComments configuration.
 /// </summary>
 public class UseAutoCommentsConfigurationTests
 {
@@ -28,7 +28,7 @@ public class UseAutoCommentsConfigurationTests
         var comment = GetTableComment<Order>(context);
 
         // Assert
-        Assert.Equal("Заказ покупателя.", comment);
+        Assert.Equal("Customer order.", comment);
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class UseAutoCommentsConfigurationTests
         var comment = GetTableComment<Order>(context);
 
         // Assert
-        Assert.Equal("Заказ покупателя.", comment);
+        Assert.Equal("Customer order.", comment);
     }
 
     [Fact]

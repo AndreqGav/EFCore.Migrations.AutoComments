@@ -1,107 +1,107 @@
 namespace EFCore.Migrations.AutoComments.Tests.Models.Owned;
 
 /// <summary>
-/// Склад.
+/// Warehouse.
 /// </summary>
 public class Warehouse
 {
     /// <summary>
-    /// Идентификатор склада.
+    /// Warehouse identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Название склада.
+    /// Warehouse name.
     /// </summary>
     public string Name { get; set; }
     
     /// <summary>
-    /// Адресс.
+    /// Address.
     /// </summary>
     public WarehouseAddress Address { get; set; }
 }
 
 /// <summary>
-/// Адрес склада.
+/// Warehouse address.
 /// </summary>
 public class WarehouseAddress
 {
     /// <summary>
-    /// Улица.
+    /// Street.
     /// </summary>
     public string Street { get; set; }
 
     /// <summary>
-    /// Город.
+    /// City.
     /// </summary>
     public string City { get; set; }
 }
 
 /// <summary>
-/// Отгрузка.
+/// Shipment.
 /// </summary>
 public class Shipment
 {
     /// <summary>
-    /// Идентификатор отгрузки.
+    /// Shipment identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Трек-номер.
+    /// Tracking number.
     /// </summary>
     public string TrackNumber { get; set; }
 
     /// <summary>
-    /// Адресс.
+    /// Address.
     /// </summary>
     public ShipmentAddress Address { get; set; }
 }
 
 /// <summary>
-/// Адрес отгрузки.
+/// Shipment address.
 /// </summary>
 public class ShipmentAddress
 {
     /// <summary>
-    /// Улица доставки.
+    /// Shipping street.
     /// </summary>
     public string Street { get; set; }
 
     /// <summary>
-    /// Город доставки.
+    /// Shipping city.
     /// </summary>
     public string City { get; set; }
 }
 
 /// <summary>
-/// Сотрудник.
+/// Employee.
 /// </summary>
 public class Employee
 {
     /// <summary>
-    /// Идентификатор сотрудника.
+    /// Employee identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Имя сотрудника.
+    /// Employee name.
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    /// Отдел.
+    /// Department.
     /// </summary>
     public Department Department { get; set; }
 }
 
 /// <summary>
-/// Отдел.
+/// Department.
 /// </summary>
 public class Department
 {
     /// <summary>
-    /// Название отдела.
+    /// Department name.
     /// </summary>
     public string Name { get; set; }
 }

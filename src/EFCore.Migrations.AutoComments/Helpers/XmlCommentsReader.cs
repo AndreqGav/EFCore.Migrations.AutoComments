@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace EFCore.Migrations.AutoComments.Helpers;
 
-public class XmlCommentsReader
+internal class XmlCommentsReader
 {
     private const string NewLinePlaceholder = "\n";
 

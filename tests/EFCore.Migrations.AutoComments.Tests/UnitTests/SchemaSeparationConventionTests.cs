@@ -6,7 +6,7 @@ using Xunit;
 namespace EFCore.Migrations.AutoComments.Tests.UnitTests;
 
 /// <summary>
-/// Тесты проверяют, что конвенция автокомментариев различает сущности с одинаковым именем таблицы в разных схемах.
+/// Tests that the auto-comments convention separates entities with the same table name across different schemas.
 /// </summary>
 public class SchemaSeparationConventionTests
 {
@@ -38,8 +38,8 @@ public class SchemaSeparationConventionTests
         var billingComment = GetTableComment<BillingInvoice>(context);
 
         // Assert
-        Assert.Equal("Счёт в домене.", domainComment);
-        Assert.Equal("Счёт в биллинге.", billingComment);
+        Assert.Equal("Invoice in the domain schema.", domainComment);
+        Assert.Equal("Invoice in the billing schema.", billingComment);
     }
 
     [Fact]
@@ -49,8 +49,8 @@ public class SchemaSeparationConventionTests
         using var context = new DifferentSchemaContext(BuildOptions<DifferentSchemaContext>());
 
         // Act + Assert
-        Assert.Equal("Номер счёта.", GetColumnComment<DomainInvoice>(context, nameof(DomainInvoice.Number)));
-        Assert.Equal("Сумма счёта.", GetColumnComment<BillingInvoice>(context, nameof(BillingInvoice.Amount)));
+        Assert.Equal("Invoice number.", GetColumnComment<DomainInvoice>(context, nameof(DomainInvoice.Number)));
+        Assert.Equal("Invoice amount.", GetColumnComment<BillingInvoice>(context, nameof(BillingInvoice.Amount)));
     }
 
     [Fact]
@@ -64,8 +64,8 @@ public class SchemaSeparationConventionTests
         var billingComment = GetTableComment<BillingInvoice>(context);
 
         // Assert
-        Assert.Equal("Счёт в домене.", domainComment);
-        Assert.Equal("Счёт в биллинге.", billingComment);
+        Assert.Equal("Invoice in the domain schema.", domainComment);
+        Assert.Equal("Invoice in the billing schema.", billingComment);
     }
 }
 
@@ -99,14 +99,14 @@ internal sealed class NullAndExplicitSchemaContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // схема не задана (null)
+        // Schema is not set (null).
         modelBuilder.Entity<DomainInvoice>(builder =>
         {
             builder.HasKey(e => e.Id);
             builder.ToTable("Invoices");
         });
 
-        // явная схема
+        // Explicit schema.
         modelBuilder.Entity<BillingInvoice>(builder =>
         {
             builder.HasKey(e => e.Id);

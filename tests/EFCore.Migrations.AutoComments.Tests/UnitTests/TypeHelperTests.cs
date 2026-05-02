@@ -6,7 +6,7 @@ using Xunit;
 namespace EFCore.Migrations.AutoComments.Tests.UnitTests;
 
 /// <summary>
-/// Юнит-тесты <see cref="TypeHelper"/>.
+/// Unit tests for <see cref="TypeHelper"/>.
 /// </summary>
 public class TypeHelperTests
 {

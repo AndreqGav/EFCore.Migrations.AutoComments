@@ -68,7 +68,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
             var root = entityType.Builder.Metadata.GetRootType();
             var mappingStrategy = root.GetMappingStrategy();
 
-            // Для TPH выставляем комментарий всей цепочке наследования.
+            // For TPH, apply the same comment to the entire inheritance chain.
             if (mappingStrategy == RelationalAnnotationNames.TphMappingStrategy)
             {
                 var derivedTypes = root.GetDerivedTypesInclusive().ToList();
@@ -139,7 +139,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
             }
             else
             {
-                // Если Owned маппится на свою таблицу, то указываем ей комментарий от Owned
+                // If an owned entity is mapped to its own table, use the owned type comment.
                 if (!HasSameTable(ownedEntityType, ownerType))
                 {
                     var comment = _xmlReader.GetTypeComment(ownedEntityType.ClrType);
@@ -334,19 +334,19 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
     {
         foreach (var entityType in entityTypes)
         {
-            // Пропускаем Owned типы (они обрабатываются отдельно)
+            // Skip owned types (handled specially).
             if (entityType.IsOwned())
             {
                 continue;
             }
 
-            // Пропускаем представления.
+            // Skip views.
             if (entityType.GetViewName() != null)
             {
                 continue;
             }
 
-            // Пропускаем сущности без таблицы
+            // Skip entities without a table.
             if (entityType.GetTableName() == null)
             {
                 continue;
@@ -354,13 +354,13 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
             var mappingStrategy = entityType.GetMappingStrategy();
 
-            // Пропускаем дочерние классы в наследовании TPH 
+            // Skip derived classes in TPH inheritance.
             if (mappingStrategy == RelationalAnnotationNames.TphMappingStrategy && entityType.BaseType != null)
             {
                 continue;
             }
 
-            // Пропускаем абстрактные классы в наследовании TPC 
+            // Skip abstract classes in TPC inheritance.
             if (mappingStrategy == RelationalAnnotationNames.TpcMappingStrategy && !IsInstantiable(entityType.ClrType))
             {
                 continue;

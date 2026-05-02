@@ -1,34 +1,34 @@
 namespace EFCore.Migrations.AutoComments.Tests.Models.Inheritance;
 
 /// <summary>
-/// Базовый тип в наследовании TPT.
+/// Base type in TPT inheritance.
 /// </summary>
 public class ArticleBase
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 }
 
 /// <summary>
-/// Наследник А в TPT.
+/// TPT derived type A.
 /// </summary>
 public class ArticleA : ArticleBase
 {
     /// <summary>
-    /// Специфичное содержимое А.
+    /// Type A specific content.
     /// </summary>
     public string ContentA { get; set; }
 }
 
 /// <summary>
-/// Наследник Б в TPT.
+/// TPT derived type B.
 /// </summary>
 public class ArticleB : ArticleBase
 {
     /// <summary>
-    /// Специфичное содержимое Б.
+    /// Type B specific content.
     /// </summary>
     public string ContentB { get; set; }
 }

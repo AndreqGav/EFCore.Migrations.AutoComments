@@ -8,10 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EFCore.Migrations.AutoComments;
 
-/// <summary>
-/// Расширение, которое позволяет передать и сохранить пути до XML файлов с комментариями.
-/// Также регистрирует плагин установки конвенций.
-/// </summary>
 internal class AutoCommentsExtension : IDbContextOptionsExtension
 {
     public AutoCommentOptions Options { get; }

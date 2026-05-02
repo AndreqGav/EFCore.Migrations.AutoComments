@@ -1,34 +1,34 @@
 namespace EFCore.Migrations.AutoComments.Tests.Models.Inheritance;
 
 /// <summary>
-/// Абстрактный базовый тип в наследовании TPC.
+/// Abstract base type in TPC inheritance.
 /// </summary>
 public abstract class BlogBase
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 }
 
 /// <summary>
-/// Наследник А в TPC.
+/// TPC derived type A.
 /// </summary>
 public class BlogA : BlogBase
 {
     /// <summary>
-    /// Имя А.
+    /// Name A.
     /// </summary>
     public string Name { get; set; }
 }
 
 /// <summary>
-/// Наследник Б в TPC.
+/// TPC derived type B.
 /// </summary>
 public class BlogB : BlogBase
 {
     /// <summary>
-    /// Имя Б.
+    /// Name B.
     /// </summary>
     public string Name { get; set; }
 }

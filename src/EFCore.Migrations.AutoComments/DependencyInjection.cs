@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using EFCore.Migrations.AutoComments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
@@ -12,12 +11,19 @@ namespace EFCore.Migrations.AutoComments;
 
 public static class DependencyInjection
 {
+    /// <summary>
+    /// Enables auto comments and configures XML documentation files.
+    /// If no files are provided, XML documentation is auto-discovered by assembly name.
+    /// </summary>
     public static TBuilder UseAutoComments<TBuilder>([NotNull] this TBuilder optionsBuilder, params string[] xmlFiles)
         where TBuilder : DbContextOptionsBuilder
     {
         return optionsBuilder.UseAutoComments(o => o.FromXmlFiles(xmlFiles));
     }
 
+    /// <summary>
+    /// Enables auto comments and applies custom options.
+    /// </summary>
     public static TBuilder UseAutoComments<TBuilder>([NotNull] this TBuilder optionsBuilder, Action<AutoCommentOptionsBuilder> configure)
         where TBuilder : DbContextOptionsBuilder
     {
@@ -68,6 +74,9 @@ public class AutoCommentOptionsBuilder
         Options = initialOptions;
     }
 
+    /// <summary>
+    /// Sets XML documentation files used as the comments source.
+    /// </summary>
     public AutoCommentOptionsBuilder FromXmlFiles(params string[] xmlFiles)
     {
         Options = Options with
@@ -78,6 +87,9 @@ public class AutoCommentOptionsBuilder
         return this;
     }
 
+    /// <summary>
+    /// Enables global enum value descriptions in comments.
+    /// </summary>
     public AutoCommentOptionsBuilder AddEnumDescriptions()
     {
         Options = Options with
@@ -88,6 +100,9 @@ public class AutoCommentOptionsBuilder
         return this;
     }
 
+    /// <summary>
+    /// Enables merged comments across inheritance hierarchies (experimental).
+    /// </summary>
     public AutoCommentOptionsBuilder AddInheritanceComments()
     {
         Options = Options with

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 namespace EFCore.Migrations.AutoComments.Conventions;
 
 /// <summary>
-/// Добавление аннотаций о том, что требуется дополнить комментарий к Enum с перечислением его значений.
+/// Adds annotations for properties that require enum value descriptions in comments.
 /// </summary>
 internal class AutoCommentEnumDescriptionConvention : IModelFinalizingConvention
 {

@@ -3,38 +3,38 @@ using System.Collections.Generic;
 namespace EFCore.Migrations.AutoComments.Tests.Models.Owned;
 
 /// <summary>
-/// Корзина покупок.
+/// Shopping cart.
 /// </summary>
 public class ShoppingCart
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Название.
+    /// Name.
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    /// Позиции корзины.
+    /// Cart items.
     /// </summary>
     public ICollection<CartItem> Items { get; set; }
 }
 
 /// <summary>
-/// Позиция корзины.
+/// Cart item.
 /// </summary>
 public class CartItem
 {
     /// <summary>
-    /// Название товара.
+    /// Product name.
     /// </summary>
     public string ProductName { get; set; }
 
     /// <summary>
-    /// Количество.
+    /// Quantity.
     /// </summary>
     public int Quantity { get; set; }
 }

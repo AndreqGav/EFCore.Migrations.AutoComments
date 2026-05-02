@@ -1,139 +1,139 @@
 namespace EFCore.Migrations.AutoComments.Tests.Models;
 
 /// <summary>
-/// Заказ покупателя.
+/// Customer order.
 /// </summary>
 public class Order
 {
     /// <summary>
-    /// Идентификатор заказа.
+    /// Order identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Номер заказа.
+    /// Order number.
     /// </summary>
     public string Number { get; set; }
 
     /// <summary>
-    ///     Итоговая сумма заказа в рублях.     
+    ///      Total order amount.       
     /// </summary>
     public decimal TotalAmount { get; set; }
 
     /// <summary>
-    /// Статус подтверждения заказа.
+    /// Order confirmation status.
     /// </summary>
     public bool IsConfirmed { get; set; }
 
     /// <summary>
-    /// Статус заказа.
+    /// Order status.
     /// </summary>
     [AutoCommentEnumDescription]
     public OrderStatus Status { get; set; }
 
     /// <summary>
-    /// Категория заказа.
+    /// Order category.
     /// </summary>
     public OrderCategory Category { get; set; }
 
     /// <summary>
-    /// Способ доставки.
+    /// Delivery method.
     /// </summary>
     [IgnoreAutoCommentEnumDescription]
     public DeliveryMethod DeliveryMethod { get; set; }
 }
 
 /// <summary>
-/// Представление каталога заказов.
+/// Order catalog view.
 /// </summary>
 public class OrderCatalogView
 {
     /// <summary>
-    /// Номер заказа.
+    /// Order number.
     /// </summary>
     public string Number { get; set; }
 
     /// <summary>
-    /// Итоговая сумма заказа в рублях.
+    /// Total order amount.
     /// </summary>
     public decimal TotalAmount { get; set; }
 }
 
 /// <summary>
-/// Запрос каталога заказов.
+/// Order catalog SQL query.
 /// </summary>
 public class OrderCatalogSqlQuery
 {
     /// <summary>
-    /// Номер заказа.
+    /// Order number.
     /// </summary>
     public string Number { get; set; }
 
     /// <summary>
-    /// Итоговая сумма заказа в рублях.
+    /// Total order amount.
     /// </summary>
     public decimal TotalAmount { get; set; }
 }
 
 /// <summary>
-/// Статус заказа.
+/// Order status.
 /// </summary>
 public enum OrderStatus
 {
     /// <summary>
-    /// Активный, ожидает выполнения.
+    /// Active, awaiting fulfillment.
     /// </summary>
     Active = 0,
 
     /// <summary>
-    /// Выполнен, доставлен покупателю.
+    /// Completed, delivered to the customer.
     /// </summary>
     Completed = 1,
 
     /// <summary>
-    /// Отменён, возврат средств.
+    /// Cancelled, refund issued.
     /// </summary>
     Cancelled = 2,
 }
 
 /// <summary>
-/// Категория заказа.
+/// Order category.
 /// </summary>
 public enum OrderCategory
 {
     /// <summary>
-    /// Одежда.
+    /// Clothing.
     /// </summary>
     Clothing,
 
     /// <summary>
-    /// Книги.
+    /// Books.
     /// </summary>
     Books,
 
     /// <summary>
-    /// Игрушки.
+    /// Toys.
     /// </summary>
     Toys,
 }
 
 /// <summary>
-/// Способ доставки заказа.
+/// Order delivery method.
 /// </summary>
 public enum DeliveryMethod
 {
     /// <summary>
-    /// Самовывоз из пункта выдачи.
+    /// Pickup from a pickup point.
     /// </summary>
     Pickup,
 
     /// <summary>
-    /// Курьерская доставка до двери.
+    /// Courier delivery to the door.
     /// </summary>
     Courier,
 
     /// <summary>
-    /// Почтовая служба.
+    /// Postal service.
     /// </summary>
     Post,
 }
