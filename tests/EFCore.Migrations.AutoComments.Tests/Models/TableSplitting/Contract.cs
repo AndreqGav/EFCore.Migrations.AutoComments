@@ -1,17 +1,17 @@
 namespace EFCore.Migrations.AutoComments.Tests.Models.TableSplitting;
 
 /// <summary>
-/// Договор.
+/// Contract.
 /// </summary>
 public class Contract
 {
     /// <summary>
-    /// Идентификатор договора.
+    /// Contract identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Номер договора.
+    /// Contract number.
     /// </summary>
     public string Number { get; set; }
 
@@ -19,17 +19,17 @@ public class Contract
 }
 
 /// <summary>
-/// Договор.
+/// Contract.
 /// </summary>
 public class ContractDetails
 {
     /// <summary>
-    /// Идентификатор договора.
+    /// Contract identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Примечания к договору.
+    /// Contract notes.
     /// </summary>
     public string Notes { get; set; }
 }

@@ -1,44 +1,44 @@
 namespace EFCore.Migrations.AutoComments.Tests.Models.Json;
 
 /// <summary>
-/// Отчёт.
+/// Report.
 /// </summary>
 public class Report
 {
     /// <summary>
-    /// Идентификатор отчёта.
+    /// Report identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Метаданные.
+    /// Metadata.
     /// </summary>
     public ReportMetadata Metadata { get; set; }
 }
 
 /// <summary>
-/// Метаданные отчёта.
+/// Report metadata.
 /// </summary>
 public class ReportMetadata
 {
     /// <summary>
-    /// Заголовок отчёта.
+    /// Report title.
     /// </summary>
     public string Title { get; set; }
 
     /// <summary>
-    /// Автор отчёта.
+    /// Report author.
     /// </summary>
     public string Author { get; set; }
 }
 
 /// <summary>
-/// Билет.
+/// Ticket.
 /// </summary>
 public class Ticket
 {
     /// <summary>
-    /// Идентификатор билета.
+    /// Ticket identifier.
     /// </summary>
     public int Id { get; set; }
 
@@ -46,17 +46,17 @@ public class Ticket
 }
 
 /// <summary>
-/// Информация о месте.
+/// Seat information.
 /// </summary>
 public class SeatInfo
 {
     /// <summary>
-    /// Номер ряда.
+    /// Row number.
     /// </summary>
     public int Row { get; set; }
 
     /// <summary>
-    /// Номер места.
+    /// Seat number.
     /// </summary>
     public int Number { get; set; }
 }

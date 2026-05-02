@@ -7,7 +7,7 @@ using Xunit;
 namespace EFCore.Migrations.AutoComments.Tests.UnitTests;
 
 /// <summary>
-/// Юнит-тесты <see cref="XmlCommentsReader"/>.
+/// Unit tests for <see cref="XmlCommentsReader"/>.
 /// </summary>
 public class XmlCommentsReaderTests
 {
@@ -36,33 +36,33 @@ public class XmlCommentsReaderTests
     }
 
     /// <summary>
-    /// Комментарий к классу.
+    /// Class comment.
     /// </summary>
     private class AssemblySampleModel
     {
         /// <summary>
-        /// Комментарий к Name.
+        /// Comment for Name.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Комментарий к Count.
+        /// Comment for Count.
         /// </summary>
         public int Count { get; set; }
     }
 
     /// <summary>
-    /// Комментарий к перечислению.
+    /// Enum comment.
     /// </summary>
     private enum AssemblySampleEnum
     {
         /// <summary>
-        /// Комментарий к Value1.
+        /// Comment for Value1.
         /// </summary>
         Value1,
 
         /// <summary>
-        /// Комментарий к Value2.
+        /// Comment for Value2.
         /// </summary>
         Value2
     }
@@ -121,21 +121,21 @@ public class XmlCommentsReaderTests
     public void GetTypeComment_Should_ReturnComment_FromXmlFile_WhenTypeExistsInXml()
     {
         // Arrange
-        var xml = BuildXml((TypeMember(typeof(SampleModel)), "Тестовая модель."));
+        var xml = BuildXml((TypeMember(typeof(SampleModel)), "Test model."));
         var reader = CreateReader(xml);
 
         // Act
         var comment = reader.GetTypeComment(typeof(SampleModel));
 
         // Assert
-        Assert.Equal("Тестовая модель.", comment);
+        Assert.Equal("Test model.", comment);
     }
 
     [Fact]
     public void GetTypeComment_Should_ReturnNull_FromXmlFile_WhenTypeNotInXml()
     {
         // Arrange
-        var xml = BuildXml((TypeMember(typeof(SampleModel)), "Тестовая модель."));
+        var xml = BuildXml((TypeMember(typeof(SampleModel)), "Test model."));
         var reader = CreateReader(xml);
 
         // Act
@@ -155,7 +155,7 @@ public class XmlCommentsReaderTests
         var comment = reader.GetTypeComment(typeof(AssemblySampleModel));
 
         // Assert
-        Assert.Equal("Комментарий к классу.", comment);
+        Assert.Equal("Class comment.", comment);
     }
 
     [Fact]
@@ -175,28 +175,28 @@ public class XmlCommentsReaderTests
     public void GetTypeComment_Should_TrimLeadingAndTrailingWhitespace()
     {
         // Arrange
-        var xml = BuildXml((TypeMember(typeof(SampleModel)), "  Тестовая модель.  "));
+        var xml = BuildXml((TypeMember(typeof(SampleModel)), "  Test model.  "));
         var reader = CreateReader(xml);
 
         // Act
         var comment = reader.GetTypeComment(typeof(SampleModel));
 
         // Assert
-        Assert.Equal("Тестовая модель.", comment);
+        Assert.Equal("Test model.", comment);
     }
 
     [Fact]
     public void GetTypeComment_Should_NormalizeMultilineText()
     {
         // Arrange
-        var xml = BuildXml((TypeMember(typeof(SampleModel)), "\n  Строка первая.  \n  Строка вторая.  \n"));
+        var xml = BuildXml((TypeMember(typeof(SampleModel)), "\n  First line.  \n  Second line.  \n"));
         var reader = CreateReader(xml);
 
         // Act
         var comment = reader.GetTypeComment(typeof(SampleModel));
 
         // Assert
-        Assert.Equal("Строка первая.\nСтрока вторая.", comment);
+        Assert.Equal("First line.\nSecond line.", comment);
     }
 
     [Fact]
@@ -217,14 +217,14 @@ public class XmlCommentsReaderTests
     public void GetTypeComment_Should_ReturnBaseClassComment_WhenDerivedClassNotInXml()
     {
         // Arrange
-        var xml = BuildXml((TypeMember(typeof(BaseModel)), "Базовая модель."));
+        var xml = BuildXml((TypeMember(typeof(BaseModel)), "Base model."));
         var reader = CreateReader(xml);
 
         // Act
         var comment = reader.GetTypeComment(typeof(DerivedModel));
 
         // Assert
-        Assert.Equal("Базовая модель.", comment);
+        Assert.Equal("Base model.", comment);
     }
 
     [Fact]
@@ -232,8 +232,8 @@ public class XmlCommentsReaderTests
     {
         // Arrange
         var xml = BuildXml(
-            (TypeMember(typeof(DerivedModel)), "Производная модель."),
-            (TypeMember(typeof(BaseModel)), "Базовая модель."));
+            (TypeMember(typeof(DerivedModel)), "Derived model."),
+            (TypeMember(typeof(BaseModel)), "Base model."));
 
         var reader = CreateReader(xml);
 
@@ -241,28 +241,28 @@ public class XmlCommentsReaderTests
         var comment = reader.GetTypeComment(typeof(DerivedModel));
 
         // Assert
-        Assert.Equal("Производная модель.", comment);
+        Assert.Equal("Derived model.", comment);
     }
 
     [Fact]
     public void GetPropertyComment_Should_ReturnComment_FromXmlFile_WhenPropertyExistsInXml()
     {
         // Arrange
-        var xml = BuildXml((PropertyMember(typeof(SampleModel), nameof(SampleModel.Name)), "Имя."));
+        var xml = BuildXml((PropertyMember(typeof(SampleModel), nameof(SampleModel.Name)), "Name."));
         var reader = CreateReader(xml);
 
         // Act
         var comment = reader.GetPropertyComment(typeof(SampleModel), nameof(SampleModel.Name));
 
         // Assert
-        Assert.Equal("Имя.", comment);
+        Assert.Equal("Name.", comment);
     }
 
     [Fact]
     public void GetPropertyComment_Should_ReturnNull_FromXmlFile_WhenPropertyNotInXml()
     {
         // Arrange
-        var xml = BuildXml((PropertyMember(typeof(SampleModel), nameof(SampleModel.Name)), "Имя."));
+        var xml = BuildXml((PropertyMember(typeof(SampleModel), nameof(SampleModel.Name)), "Name."));
         var reader = CreateReader(xml);
 
         // Act
@@ -282,7 +282,7 @@ public class XmlCommentsReaderTests
         var comment = reader.GetPropertyComment(typeof(AssemblySampleModel), nameof(AssemblySampleModel.Name));
 
         // Assert
-        Assert.Equal("Комментарий к Name.", comment);
+        Assert.Equal("Comment for Name.", comment);
     }
 
     [Fact]
@@ -302,14 +302,14 @@ public class XmlCommentsReaderTests
     public void GetPropertyComment_Should_FindPropertyComment_InBaseClass()
     {
         // Arrange
-        var xml = BuildXml((PropertyMember(typeof(BaseModel), nameof(BaseModel.BaseProperty)), "Базовое свойство."));
+        var xml = BuildXml((PropertyMember(typeof(BaseModel), nameof(BaseModel.BaseProperty)), "Base property."));
         var reader = CreateReader(xml);
 
         // Act
         var comment = reader.GetPropertyComment(typeof(DerivedModel), nameof(BaseModel.BaseProperty));
 
         // Assert
-        Assert.Equal("Базовое свойство.", comment);
+        Assert.Equal("Base property.", comment);
     }
 
     [Fact]
@@ -330,21 +330,21 @@ public class XmlCommentsReaderTests
     public void GetEnumFieldComment_Should_ReturnComment_FromXmlFile_WhenFieldExistsInXml()
     {
         // Arrange
-        var xml = BuildXml((EnumFieldMember(typeof(SampleEnum), nameof(SampleEnum.Value1)), "Первое значение."));
+        var xml = BuildXml((EnumFieldMember(typeof(SampleEnum), nameof(SampleEnum.Value1)), "First value."));
         var reader = CreateReader(xml);
 
         // Act
         var comment = reader.GetEnumFieldComment(typeof(SampleEnum), nameof(SampleEnum.Value1));
 
         // Assert
-        Assert.Equal("Первое значение.", comment);
+        Assert.Equal("First value.", comment);
     }
 
     [Fact]
     public void GetEnumFieldComment_Should_ReturnNull_FromXmlFile_WhenFieldNotInXml()
     {
         // Arrange
-        var xml = BuildXml((EnumFieldMember(typeof(SampleEnum), nameof(SampleEnum.Value1)), "Первое значение."));
+        var xml = BuildXml((EnumFieldMember(typeof(SampleEnum), nameof(SampleEnum.Value1)), "First value."));
         var reader = CreateReader(xml);
 
         // Act
@@ -364,7 +364,7 @@ public class XmlCommentsReaderTests
         var comment = reader.GetEnumFieldComment(typeof(AssemblySampleEnum), nameof(AssemblySampleEnum.Value1));
 
         // Assert
-        Assert.Equal("Комментарий к Value1.", comment);
+        Assert.Equal("Comment for Value1.", comment);
     }
 
     [Fact]
@@ -398,8 +398,8 @@ public class XmlCommentsReaderTests
     public void MultipleFiles_Should_FindTypesFromBothFiles()
     {
         // Arrange
-        var xml1 = BuildXml((TypeMember(typeof(SampleModel)), "Модель из первого файла."));
-        var xml2 = BuildXml((TypeMember(typeof(BaseModel)), "Модель из второго файла."));
+        var xml1 = BuildXml((TypeMember(typeof(SampleModel)), "Model from the first file."));
+        var xml2 = BuildXml((TypeMember(typeof(BaseModel)), "Model from the second file."));
         var reader = CreateReader(xml1, xml2);
 
         // Act
@@ -407,7 +407,7 @@ public class XmlCommentsReaderTests
         var commentFromFile2 = reader.GetTypeComment(typeof(BaseModel));
 
         // Assert
-        Assert.Equal("Модель из первого файла.", commentFromFile1);
-        Assert.Equal("Модель из второго файла.", commentFromFile2);
+        Assert.Equal("Model from the first file.", commentFromFile1);
+        Assert.Equal("Model from the second file.", commentFromFile2);
     }
 }

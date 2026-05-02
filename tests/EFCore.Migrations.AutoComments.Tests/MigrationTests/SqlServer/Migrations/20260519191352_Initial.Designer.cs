@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migrations
 {
     [DbContext(typeof(SqlServerMigrationDbContext))]
-    [Migration("20260428204816_Initial")]
+    [Migration("20260519191352_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,23 +28,23 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migratio
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasComment("Идентификатор блога.");
+                        .HasComment("Blog identifier.");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)")
-                        .HasComment("Название блога.");
+                        .HasComment("Blog name.");
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)")
-                        .HasComment("URL блога.");
+                        .HasComment("Blog URL.");
 
                     b.HasKey("Id");
 
                     b.ToTable("Blogs");
 
-                    b.HasComment("Блог.");
+                    b.HasComment("Blog.");
                 });
 
             modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.BlogView", b =>
@@ -66,7 +66,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migratio
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasComment("Идентификатор.");
+                        .HasComment("Identifier.");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -80,7 +80,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migratio
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("PostBase");
 
-                    b.HasComment("Базовый тип в наследовании TPH.");
+                    b.HasComment("Base type in TPH inheritance.");
                 });
 
             modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Order", b =>
@@ -88,40 +88,40 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migratio
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasComment("Идентификатор заказа.");
+                        .HasComment("Order identifier.");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("Category")
                         .HasColumnType("int")
-                        .HasComment("Категория заказа.");
+                        .HasComment("Order category.");
 
                     b.Property<int>("DeliveryMethod")
                         .HasColumnType("int")
-                        .HasComment("Способ доставки.");
+                        .HasComment("Delivery method.");
 
                     b.Property<bool>("IsConfirmed")
                         .HasColumnType("bit")
-                        .HasComment("Статус подтверждения заказа.");
+                        .HasComment("Order confirmation status.");
 
                     b.Property<string>("Number")
                         .HasColumnType("nvarchar(max)")
-                        .HasComment("Номер заказа.");
+                        .HasComment("Order number.");
 
                     b.Property<int>("Status")
                         .HasColumnType("int")
-                        .HasComment("Статус заказа.\n\n0 - Активный, ожидает выполнения.\n1 - Выполнен, доставлен покупателю.\n2 - Отменён, возврат средств.")
+                        .HasComment("Order status.\n\n0 - Active, awaiting fulfillment.\n1 - Completed, delivered to the customer.\n2 - Cancelled, refund issued.")
                         .HasAnnotation("AutoCommentEnumDescription", "");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)")
-                        .HasComment("Итоговая сумма заказа в рублях.");
+                        .HasComment("Total order amount.");
 
                     b.HasKey("Id");
 
                     b.ToTable("Orders");
 
-                    b.HasComment("Заказ покупателя.");
+                    b.HasComment("Customer order.");
                 });
 
             modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PostA", b =>
@@ -130,11 +130,11 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migratio
 
                     b.Property<string>("TextA")
                         .HasColumnType("nvarchar(max)")
-                        .HasComment("Текст А.");
+                        .HasComment("Text A.");
 
                     b.HasDiscriminator().HasValue("PostA");
 
-                    b.HasComment("Базовый тип в наследовании TPH.");
+                    b.HasComment("Base type in TPH inheritance.");
                 });
 
             modelBuilder.Entity("EFCore.Migrations.AutoComments.Tests.Models.Inheritance.PostB", b =>
@@ -143,11 +143,11 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.SqlServer.Migratio
 
                     b.Property<string>("TextB")
                         .HasColumnType("nvarchar(max)")
-                        .HasComment("Текст Б.");
+                        .HasComment("Text B.");
 
                     b.HasDiscriminator().HasValue("PostB");
 
-                    b.HasComment("Базовый тип в наследовании TPH.");
+                    b.HasComment("Base type in TPH inheritance.");
                 });
 #pragma warning restore 612, 618
         }

@@ -67,7 +67,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
             var root = entityType.Builder.Metadata.GetRootType();
 
-            // Для TPH выставляем комментарий всей цепочке наследования.
+            // For TPH, apply the same comment to the entire inheritance chain.
             if (IsTph(root))
             {
                 var derivedTypes = root.GetDerivedTypesInclusive().ToList();
@@ -130,7 +130,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
             if (ownerType is null || navigationProperty is null) continue;
 
-            // Если Owned маппится на свою таблицу, то указываем ей комментарий от Owned
+            // ���� Owned �������� �� ���� �������, �� ��������� �� ����������� �� Owned
             if (!HasSameTable(ownedEntityType, ownerType))
             {
                 var comment = _xmlReader.GetTypeComment(ownedEntityType.ClrType);
@@ -304,25 +304,25 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
     {
         foreach (var entityType in entityTypes)
         {
-            // Пропускаем Owned типы (они обрабатываются отдельно)
+            // Skip owned types (handled specially).
             if (entityType.IsOwned())
             {
                 continue;
             }
 
-            // Пропускаем представления.
+            // Skip views.
             if (entityType.GetViewName() != null)
             {
                 continue;
             }
 
-            // Пропускаем сущности без таблицы
+            // Skip entities without a table.
             if (entityType.GetTableName() == null)
             {
                 continue;
             }
 
-            // Пропускаем дочерние классы в наследовании TPH 
+            // Skip derived classes in TPH inheritance.
             if (IsTph(entityType.GetRootType()) && entityType.BaseType != null)
             {
                 continue;

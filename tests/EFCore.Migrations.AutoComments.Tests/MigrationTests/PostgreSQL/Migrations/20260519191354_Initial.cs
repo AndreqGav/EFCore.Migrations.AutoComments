@@ -13,66 +13,66 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
                 name: "Blogs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор блога.")
+                    Id = table.Column<int>(type: "integer", nullable: false, comment: "Blog identifier.")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true, comment: "Название блога."),
-                    Url = table.Column<string>(type: "text", nullable: true, comment: "URL блога.")
+                    Name = table.Column<string>(type: "text", nullable: true, comment: "Blog name."),
+                    Url = table.Column<string>(type: "text", nullable: true, comment: "Blog URL.")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Blogs", x => x.Id);
                 },
-                comment: "Блог.");
+                comment: "Blog.");
 
             migrationBuilder.CreateTable(
                 name: "BlogViews",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор.")
+                    Id = table.Column<int>(type: "integer", nullable: false, comment: "Identifier.")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true, comment: "Наименование."),
+                    Name = table.Column<string>(type: "text", nullable: true, comment: "Name."),
                     Url = table.Column<string>(type: "text", nullable: true, comment: "URL.")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BlogViews", x => x.Id);
                 },
-                comment: "Представление блога.");
+                comment: "Blog view.");
 
             migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор заказа.")
+                    Id = table.Column<int>(type: "integer", nullable: false, comment: "Order identifier.")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Number = table.Column<string>(type: "text", nullable: true, comment: "Номер заказа."),
-                    TotalAmount = table.Column<decimal>(type: "numeric", nullable: false, comment: "Итоговая сумма заказа в рублях."),
-                    IsConfirmed = table.Column<bool>(type: "boolean", nullable: false, comment: "Статус подтверждения заказа."),
-                    Status = table.Column<int>(type: "integer", nullable: false, comment: "Статус заказа.\n\n0 - Активный, ожидает выполнения.\n1 - Выполнен, доставлен покупателю.\n2 - Отменён, возврат средств."),
-                    Category = table.Column<int>(type: "integer", nullable: false, comment: "Категория заказа.\n\n0 - Одежда.\n1 - Книги.\n2 - Игрушки."),
-                    DeliveryMethod = table.Column<int>(type: "integer", nullable: false, comment: "Способ доставки.")
+                    Number = table.Column<string>(type: "text", nullable: true, comment: "Order number."),
+                    TotalAmount = table.Column<decimal>(type: "numeric", nullable: false, comment: "Total order amount."),
+                    IsConfirmed = table.Column<bool>(type: "boolean", nullable: false, comment: "Order confirmation status."),
+                    Status = table.Column<int>(type: "integer", nullable: false, comment: "Order status.\n\n0 - Active, awaiting fulfillment.\n1 - Completed, delivered to the customer.\n2 - Cancelled, refund issued."),
+                    Category = table.Column<int>(type: "integer", nullable: false, comment: "Order category.\n\n0 - Clothing.\n1 - Books.\n2 - Toys."),
+                    DeliveryMethod = table.Column<int>(type: "integer", nullable: false, comment: "Delivery method.")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                 },
-                comment: "Заказ покупателя.");
+                comment: "Customer order.");
 
             migrationBuilder.CreateTable(
                 name: "PostBase",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false, comment: "Идентификатор.")
+                    Id = table.Column<int>(type: "integer", nullable: false, comment: "Identifier.")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Discriminator = table.Column<string>(type: "text", nullable: false),
-                    TextA = table.Column<string>(type: "text", nullable: true, comment: "Текст А."),
-                    TextB = table.Column<string>(type: "text", nullable: true, comment: "Текст Б.")
+                    TextA = table.Column<string>(type: "text", nullable: true, comment: "Text A."),
+                    TextB = table.Column<string>(type: "text", nullable: true, comment: "Text B.")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PostBase", x => x.Id);
                 },
-                comment: "Базовый тип в наследовании TPH.");
+                comment: "Base type in TPH inheritance.");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
