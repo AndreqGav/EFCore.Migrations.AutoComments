@@ -7,7 +7,7 @@ using Xunit;
 namespace EFCore.Migrations.AutoComments.Tests.UnitTests;
 
 /// <summary>
-/// Тесты для ComplexProperty.
+/// Tests for ComplexProperty.
 /// </summary>
 public class ComplexPropertyConventionTests
 {
@@ -42,8 +42,8 @@ public class ComplexPropertyConventionTests
         var complexNameComment = GetProperty(specProp, nameof(ProductSpec.Name)).GetComment();
 
         // Assert
-        Assert.Equal("Название продукта.", ownerNameComment);
-        Assert.Equal("Название характеристики.", complexNameComment);
+        Assert.Equal("Product name.", ownerNameComment);
+        Assert.Equal("Specification name.", complexNameComment);
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class ComplexPropertyConventionTests
         var rowProp = GetProperty(seatProp, nameof(SeatInfo.Row))!;
 
         // Assert
-        Assert.Equal("ручной комментарий", rowProp.GetComment());
+        Assert.Equal("manual comment", rowProp.GetComment());
     }
 
     [Fact]
@@ -71,7 +71,7 @@ public class ComplexPropertyConventionTests
         var numberProp = GetProperty(seatProp, nameof(SeatInfo.Number))!;
 
         // Assert
-        Assert.Equal("Номер места.", numberProp.GetComment());
+        Assert.Equal("Seat number.", numberProp.GetComment());
     }
 
     [Fact]
@@ -85,9 +85,9 @@ public class ComplexPropertyConventionTests
         var contractorContact = GetComplexProperty<Contractor>(context, nameof(Contractor.Contact))!;
 
         // Assert
-        Assert.Equal("Телефон.", GetProperty(employeeContact, nameof(ContactInfo.Phone)).GetComment());
+        Assert.Equal("Phone.", GetProperty(employeeContact, nameof(ContactInfo.Phone)).GetComment());
         Assert.Equal("Email.", GetProperty(employeeContact, nameof(ContactInfo.Email)).GetComment());
-        Assert.Equal("Телефон.", GetProperty(contractorContact, nameof(ContactInfo.Phone)).GetComment());
+        Assert.Equal("Phone.", GetProperty(contractorContact, nameof(ContactInfo.Phone)).GetComment());
         Assert.Equal("Email.", GetProperty(contractorContact, nameof(ContactInfo.Email)).GetComment());
     }
 
@@ -102,9 +102,9 @@ public class ComplexPropertyConventionTests
         var workContact = GetComplexProperty<Staff>(context, nameof(Staff.WorkContact))!;
 
         // Assert — each complex property independently gets XML comments from ContactInfo
-        Assert.Equal("Телефон.", GetProperty(homeContact, nameof(ContactInfo.Phone)).GetComment());
+        Assert.Equal("Phone.", GetProperty(homeContact, nameof(ContactInfo.Phone)).GetComment());
         Assert.Equal("Email.", GetProperty(homeContact, nameof(ContactInfo.Email)).GetComment());
-        Assert.Equal("Телефон.", GetProperty(workContact, nameof(ContactInfo.Phone)).GetComment());
+        Assert.Equal("Phone.", GetProperty(workContact, nameof(ContactInfo.Phone)).GetComment());
         Assert.Equal("Email.", GetProperty(workContact, nameof(ContactInfo.Email)).GetComment());
     }
 
@@ -119,7 +119,7 @@ public class ComplexPropertyConventionTests
         var contactProp = homeAddress.ComplexType.FindComplexProperty(nameof(PostalAddress.Contact))!;
 
         // Assert
-        Assert.Equal("Телефон.", GetProperty(contactProp, nameof(ContactInfo.Phone))!.GetComment());
+        Assert.Equal("Phone.", GetProperty(contactProp, nameof(ContactInfo.Phone))!.GetComment());
         Assert.Equal("Email.", GetProperty(contactProp, nameof(ContactInfo.Email))!.GetComment());
     }
 }
@@ -158,7 +158,7 @@ internal sealed class ComplexTypeManualCommentContext : DbContext
             {
                 seat
                     .Property(s => s.Row)
-                    .HasComment("ручной комментарий");
+                    .HasComment("manual comment");
             });
         });
     }

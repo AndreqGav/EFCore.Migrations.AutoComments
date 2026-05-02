@@ -1,33 +1,33 @@
 ﻿namespace EFCore.Migrations.AutoComments.Tests.Models.TableSplitting;
 
 /// <summary>
-/// Основная информация о датчике.
+/// Basic sensor information.
 /// </summary>
 public class SensorMain
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Данные в формате JSON.
+    /// Data in JSON format.
     /// </summary>
     public string Data { get; set; }
 }
 
 /// <summary>
-/// Технические подробности датчика.
+/// Technical sensor details.
 /// </summary>
 public class SensorDetail
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Данные в формате JSON.
+    /// Data in JSON format.
     /// </summary>
     public string Data { get; set; }
 }

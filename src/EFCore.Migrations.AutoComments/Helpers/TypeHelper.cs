@@ -3,13 +3,10 @@ using System.Collections.Generic;
 
 namespace EFCore.Migrations.AutoComments.Helpers;
 
-/// <summary>
-/// Хелпер для C# типов.
-/// </summary>
-public class TypeHelper
+internal class TypeHelper
 {
     /// <summary>
-    /// Получить все базовые типы.
+    /// Gets all parent types.
     /// </summary>
     public static IEnumerable<Type> GetParentTypes(Type type)
     {

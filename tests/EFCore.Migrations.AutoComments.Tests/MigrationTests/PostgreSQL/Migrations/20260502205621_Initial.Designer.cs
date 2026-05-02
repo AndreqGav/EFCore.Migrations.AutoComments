@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrations
 {
     [DbContext(typeof(PostgreSqlMigrationDbContext))]
-    [Migration("20260428214618_Initial")]
+    [Migration("20260502205621_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -31,23 +31,23 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasComment("Идентификатор блога.");
+                        .HasComment("Blog identifier.");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .HasColumnType("text")
-                        .HasComment("Название блога.");
+                        .HasComment("Blog name.");
 
                     b.Property<string>("Url")
                         .HasColumnType("text")
-                        .HasComment("URL блога.");
+                        .HasComment("Blog URL.");
 
                     b.HasKey("Id");
 
                     b.ToTable("Blogs", t =>
                         {
-                            t.HasComment("Блог.");
+                            t.HasComment("Blog.");
                         });
                 });
 
@@ -56,13 +56,13 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasComment("Идентификатор.");
+                        .HasComment("Identifier.");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .HasColumnType("text")
-                        .HasComment("Наименование.");
+                        .HasComment("Name.");
 
                     b.Property<string>("Url")
                         .HasColumnType("text")
@@ -72,7 +72,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.ToTable("BlogViews", t =>
                         {
-                            t.HasComment("Представление блога.");
+                            t.HasComment("Blog view.");
                         });
                 });
 
@@ -81,7 +81,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasComment("Идентификатор.");
+                        .HasComment("Identifier.");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
@@ -89,7 +89,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.ToTable("ArticleBase", t =>
                         {
-                            t.HasComment("Базовый тип в наследовании TPT.");
+                            t.HasComment("Base type in TPT inheritance.");
                         });
 
                     b.UseTptMappingStrategy();
@@ -101,7 +101,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasDefaultValueSql("nextval('\"BlogBaseSequence\"')")
-                        .HasComment("Идентификатор.");
+                        .HasComment("Identifier.");
 
                     NpgsqlPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
 
@@ -117,7 +117,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasComment("Идентификатор.");
+                        .HasComment("Identifier.");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
@@ -130,7 +130,7 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.ToTable("PostBase", t =>
                         {
-                            t.HasComment("Базовый тип в наследовании TPH.");
+                            t.HasComment("Base type in TPH inheritance.");
                         });
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("PostBase");
@@ -143,41 +143,41 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasComment("Идентификатор заказа.");
+                        .HasComment("Order identifier.");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Category")
                         .HasColumnType("integer")
-                        .HasComment("Категория заказа.\n\n0 - Одежда.\n1 - Книги.\n2 - Игрушки.")
+                        .HasComment("Order category.\n\n0 - Clothing.\n1 - Books.\n2 - Toys.")
                         .HasAnnotation("AutoCommentEnumDescription", "");
 
                     b.Property<int>("DeliveryMethod")
                         .HasColumnType("integer")
-                        .HasComment("Способ доставки.");
+                        .HasComment("Delivery method.");
 
                     b.Property<bool>("IsConfirmed")
                         .HasColumnType("boolean")
-                        .HasComment("Статус подтверждения заказа.");
+                        .HasComment("Order confirmation status.");
 
                     b.Property<string>("Number")
                         .HasColumnType("text")
-                        .HasComment("Номер заказа.");
+                        .HasComment("Order number.");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer")
-                        .HasComment("Статус заказа.\n\n0 - Активный, ожидает выполнения.\n1 - Выполнен, доставлен покупателю.\n2 - Отменён, возврат средств.")
+                        .HasComment("Order status.\n\n0 - Active, awaiting fulfillment.\n1 - Completed, delivered to the customer.\n2 - Cancelled, refund issued.")
                         .HasAnnotation("AutoCommentEnumDescription", "");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("numeric")
-                        .HasComment("Итоговая сумма заказа в рублях.");
+                        .HasComment("Total order amount.");
 
                     b.HasKey("Id");
 
                     b.ToTable("Orders", t =>
                         {
-                            t.HasComment("Заказ покупателя.");
+                            t.HasComment("Customer order.");
                         });
                 });
 
@@ -187,11 +187,11 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.Property<string>("ContentA")
                         .HasColumnType("text")
-                        .HasComment("Специфичное содержимое А.");
+                        .HasComment("Type A specific content.");
 
                     b.ToTable("ArticleA", t =>
                         {
-                            t.HasComment("Наследник А в TPT.");
+                            t.HasComment("TPT derived type A.");
                         });
                 });
 
@@ -201,11 +201,11 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.Property<string>("ContentB")
                         .HasColumnType("text")
-                        .HasComment("Специфичное содержимое Б.");
+                        .HasComment("Type B specific content.");
 
                     b.ToTable("ArticleB", t =>
                         {
-                            t.HasComment("Наследник Б в TPT.");
+                            t.HasComment("TPT derived type B.");
                         });
                 });
 
@@ -215,11 +215,11 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.Property<string>("Name")
                         .HasColumnType("text")
-                        .HasComment("Имя А.");
+                        .HasComment("Name A.");
 
                     b.ToTable("BlogA", t =>
                         {
-                            t.HasComment("Наследник А в TPC.");
+                            t.HasComment("TPC derived type A.");
                         });
                 });
 
@@ -229,11 +229,11 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.Property<string>("Name")
                         .HasColumnType("text")
-                        .HasComment("Имя Б.");
+                        .HasComment("Name B.");
 
                     b.ToTable("BlogB", t =>
                         {
-                            t.HasComment("Наследник Б в TPC.");
+                            t.HasComment("TPC derived type B.");
                         });
                 });
 
@@ -243,11 +243,11 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.Property<string>("TextA")
                         .HasColumnType("text")
-                        .HasComment("Текст А.");
+                        .HasComment("Text A.");
 
                     b.ToTable(t =>
                         {
-                            t.HasComment("Базовый тип в наследовании TPH.");
+                            t.HasComment("Base type in TPH inheritance.");
                         });
 
                     b.HasDiscriminator().HasValue("PostA");
@@ -259,11 +259,11 @@ namespace EFCore.Migrations.AutoComments.Tests.MigrationTests.PostgreSQL.Migrati
 
                     b.Property<string>("TextB")
                         .HasColumnType("text")
-                        .HasComment("Текст Б.");
+                        .HasComment("Text B.");
 
                     b.ToTable(t =>
                         {
-                            t.HasComment("Базовый тип в наследовании TPH.");
+                            t.HasComment("Base type in TPH inheritance.");
                         });
 
                     b.HasDiscriminator().HasValue("PostB");

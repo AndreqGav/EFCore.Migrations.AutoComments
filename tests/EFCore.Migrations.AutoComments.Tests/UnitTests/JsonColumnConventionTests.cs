@@ -8,7 +8,7 @@ using Xunit;
 namespace EFCore.Migrations.AutoComments.Tests.UnitTests;
 
 /// <summary>
-/// Тесты проверяют поведение конвенции автокомментариев для JSON-колонок (OwnsOne + ToJson) и комплексных типов (ComplexProperty).
+/// Tests the auto-comments convention behavior for JSON columns (OwnsOne + ToJson) and complex types (ComplexProperty).
 /// </summary>
 public class JsonColumnConventionTests
 {
@@ -45,7 +45,7 @@ public class JsonColumnConventionTests
         var comment = GetTableComment<ReportMetadata>(context);
 
         // Assert
-        Assert.Equal("Метаданные.", comment);
+        Assert.Equal("Metadata.", comment);
     }
 
     [Fact]
@@ -55,8 +55,8 @@ public class JsonColumnConventionTests
         using var context = new TwoOwnedJsonContext(BuildOptions<TwoOwnedJsonContext>());
 
         // Act + Assert
-        Assert.Equal("Адрес доставки.", GetOwnedEntityComment<CustomerOrder, Address>(context, nameof(CustomerOrder.ShippingAddress)));
-        Assert.Equal("Адрес оплаты.", GetOwnedEntityComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress)));
+        Assert.Equal("Shipping address.", GetOwnedEntityComment<CustomerOrder, Address>(context, nameof(CustomerOrder.ShippingAddress)));
+        Assert.Equal("Billing address.", GetOwnedEntityComment<CustomerOrder, Address>(context, nameof(CustomerOrder.BillingAddress)));
     }
 
     /// <summary>

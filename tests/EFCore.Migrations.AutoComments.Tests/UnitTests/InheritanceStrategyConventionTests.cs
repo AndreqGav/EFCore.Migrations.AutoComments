@@ -7,7 +7,7 @@ using Xunit;
 namespace EFCore.Migrations.AutoComments.Tests.UnitTests;
 
 /// <summary>
-/// Тесты проверяют, что конвенция автокомментариев корректно обрабатывает стратегии наследования TPH, TPC, TPT
+/// Tests that the auto-comments convention correctly handles TPH, TPC, and TPT inheritance strategies.
 /// </summary>
 public class InheritanceStrategyConventionTests
 {
@@ -47,7 +47,7 @@ public class InheritanceStrategyConventionTests
         var comment = GetTableComment<PostBase>(context);
 
         // Assert
-        Assert.Equal("Базовый тип в наследовании TPH.", comment);
+        Assert.Equal("Base type in TPH inheritance.", comment);
     }
 
     [Fact]
@@ -60,9 +60,9 @@ public class InheritanceStrategyConventionTests
         var comment = GetTableComment<PostBase>(context);
 
         // Assert
-        Assert.Contains("Базовый тип в наследовании TPH.", comment);
-        Assert.Contains("Наследник А.", comment);
-        Assert.Contains("Наследник Б.", comment);
+        Assert.Contains("Base type in TPH inheritance.", comment);
+        Assert.Contains("Derived type A.", comment);
+        Assert.Contains("Derived type B.", comment);
     }
 
     [Fact]
@@ -74,9 +74,9 @@ public class InheritanceStrategyConventionTests
         // Act + Assert
         Assert.Equal(GetTableComment<PostA>(context), GetTableComment<PostB>(context));
 
-        Assert.Contains("Базовый тип в наследовании TPH.", GetTableComment<PostA>(context));
-        Assert.Contains("Наследник А.", GetTableComment<PostA>(context));
-        Assert.Contains("Наследник Б.", GetTableComment<PostA>(context));
+        Assert.Contains("Base type in TPH inheritance.", GetTableComment<PostA>(context));
+        Assert.Contains("Derived type A.", GetTableComment<PostA>(context));
+        Assert.Contains("Derived type B.", GetTableComment<PostA>(context));
     }
 
     [Fact]
@@ -103,7 +103,7 @@ public class InheritanceStrategyConventionTests
         // Assert
         Assert.Equal(propA.GetColumnName(), propB.GetColumnName());
         Assert.Equal(propA.GetComment(), propB.GetComment());
-        Assert.Equal("Текст сообщения для отправки.", propB.GetComment());
+        Assert.Equal("Message text to send.", propB.GetComment());
     }
 
     [Fact]
@@ -118,8 +118,8 @@ public class InheritanceStrategyConventionTests
 
         // Assert
         Assert.Equal(propA.GetColumnName(), propB.GetColumnName());
-        Assert.Contains("Текст сообщения для отправки.", propA.GetComment());
-        Assert.Contains("Системный код события (INFO, WARN, ERROR).", propB.GetComment());
+        Assert.Contains("Message text to send.", propA.GetComment());
+        Assert.Contains("System event code (INFO, WARN, ERROR).", propB.GetComment());
     }
 
     [Fact]
@@ -134,7 +134,7 @@ public class InheritanceStrategyConventionTests
 
         // Assert
         Assert.Equal(propA.GetComment(), propB.GetComment());
-        Assert.Equal("Дискриминатор.", propB.GetComment());
+        Assert.Equal("Discriminator.", propB.GetComment());
     }
 
     [Fact]
@@ -154,8 +154,8 @@ public class InheritanceStrategyConventionTests
         using var context = new TpcAutoCommentsContext(BuildOptions<TpcAutoCommentsContext>());
 
         // Act + Assert
-        Assert.Equal("Наследник А в TPC.", GetTableComment<BlogA>(context));
-        Assert.Equal("Наследник Б в TPC.", GetTableComment<BlogB>(context));
+        Assert.Equal("TPC derived type A.", GetTableComment<BlogA>(context));
+        Assert.Equal("TPC derived type B.", GetTableComment<BlogB>(context));
     }
 
     [Fact]
@@ -169,8 +169,8 @@ public class InheritanceStrategyConventionTests
         var idB = GetProperty<BlogB>(context, nameof(BlogBase.Id));
 
         // Assert
-        Assert.Equal("Идентификатор.", idA.GetComment());
-        Assert.Equal("Идентификатор.", idB.GetComment());
+        Assert.Equal("Identifier.", idA.GetComment());
+        Assert.Equal("Identifier.", idB.GetComment());
     }
 
     [Fact]
@@ -180,7 +180,7 @@ public class InheritanceStrategyConventionTests
         using var context = new TptAutoCommentsContext(BuildOptions<TptAutoCommentsContext>());
 
         // Act + Assert
-        Assert.Equal("Базовый тип в наследовании TPT.", GetTableComment<ArticleBase>(context));
+        Assert.Equal("Base type in TPT inheritance.", GetTableComment<ArticleBase>(context));
     }
 
     [Fact]
@@ -190,8 +190,8 @@ public class InheritanceStrategyConventionTests
         using var context = new TptAutoCommentsContext(BuildOptions<TptAutoCommentsContext>());
 
         // Act + Assert
-        Assert.Equal("Наследник А в TPT.", GetTableComment<ArticleA>(context));
-        Assert.Equal("Наследник Б в TPT.", GetTableComment<ArticleB>(context));
+        Assert.Equal("TPT derived type A.", GetTableComment<ArticleA>(context));
+        Assert.Equal("TPT derived type B.", GetTableComment<ArticleB>(context));
     }
 }
 
