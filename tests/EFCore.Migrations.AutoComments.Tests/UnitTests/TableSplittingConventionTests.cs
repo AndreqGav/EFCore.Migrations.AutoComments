@@ -7,7 +7,7 @@ using Xunit;
 namespace EFCore.Migrations.AutoComments.Tests.UnitTests;
 
 /// <summary>
-/// Тесты проверяют, что конвенция автокомментариев корректно обрабатывает  разбиение таблицы: две сущности используют одну таблицу.
+/// Tests that the auto-comments convention correctly handles table splitting when two entities share one table.
 /// </summary>
 public class TableSplittingConventionTests
 {
@@ -29,7 +29,7 @@ public class TableSplittingConventionTests
             .FindProperty(propertyName)!;
 
     [Fact]
-    public void AutoComments_TableSplitting_SameComment_Should_SetComment()
+    public void AutoComments_TableSplitting_SameComment_Should_SetOneComment()
     {
         // Arrange
         using var context = new SameCommentSplitContext(BuildOptions<SameCommentSplitContext>());
@@ -39,8 +39,8 @@ public class TableSplittingConventionTests
         var secondaryComment = GetEntityComment<ContractDetails>(context);
 
         // Assert
-        Assert.Equal("Договор.", primaryComment);
-        Assert.Equal("Договор.", secondaryComment);
+        Assert.Equal("Contract.", primaryComment);
+        Assert.Equal("Contract.", secondaryComment);
     }
 
     [Fact]
@@ -54,8 +54,8 @@ public class TableSplittingConventionTests
         var secondaryComment = GetEntityComment<ProductDetails>(context);
 
         // Assert
-        Assert.Equal("Продукт.\nДетали продукта.", primaryComment);
-        Assert.Equal("Продукт.\nДетали продукта.", secondaryComment);
+        Assert.Equal("Product.\nProduct details.", primaryComment);
+        Assert.Equal("Product.\nProduct details.", secondaryComment);
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class TableSplittingConventionTests
         var secondaryComment = GetEntityComment<ProductDetails>(context);
 
         // Assert
-        Assert.Equal("Ручной комментарий.", primaryComment);
+        Assert.Equal("Manual comment.", primaryComment);
         Assert.Null(secondaryComment);
     }
 
@@ -85,8 +85,8 @@ public class TableSplittingConventionTests
 
         // Assert
         Assert.Equal(mainProp.GetColumnName(), detailProp.GetColumnName());
-        Assert.Equal("Данные в формате JSON.", mainProp.GetComment());
-        Assert.Equal("Данные в формате JSON.", detailProp.GetComment());
+        Assert.Equal("Data in JSON format.", mainProp.GetComment());
+        Assert.Equal("Data in JSON format.", detailProp.GetComment());
     }
 
     [Fact]
@@ -102,8 +102,8 @@ public class TableSplittingConventionTests
         // Assert
         Assert.Equal(mainProp.GetColumnName(), detailProp.GetColumnName());
         Assert.Equal(mainProp.GetComment(), detailProp.GetComment());
-        Assert.Contains("Текущий статус готовности устройства.", mainProp.GetComment());
-        Assert.Contains("Полный лог последнего изменения состояния.", mainProp.GetComment());
+        Assert.Contains("Current device readiness status.", mainProp.GetComment());
+        Assert.Contains("Full log of the latest state change.", mainProp.GetComment());
     }
 }
 
@@ -178,7 +178,7 @@ internal sealed class ManualCommentSplitContext : DbContext
                 .WithOne()
                 .HasForeignKey<ProductDetails>(d => d.Id);
 
-            builder.ToTable("Products", t => t.HasComment("Ручной комментарий."));
+            builder.ToTable("Products", t => t.HasComment("Manual comment."));
         });
 
         modelBuilder.Entity<ProductDetails>(builder =>

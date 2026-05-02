@@ -1,12 +1,12 @@
 namespace EFCore.Migrations.AutoComments.Tests.Models.Json;
 
 /// <summary>
-/// Контактная информация.
+/// Contact information.
 /// </summary>
 public class ContactInfo
 {
     /// <summary>
-    /// Телефон.
+    /// Phone.
     /// </summary>
     public string Phone { get; set; }
 
@@ -17,118 +17,118 @@ public class ContactInfo
 }
 
 /// <summary>
-/// Почтовый адрес.
+/// Postal address.
 /// </summary>
 public class PostalAddress
 {
     /// <summary>
-    /// Улица.
+    /// Street.
     /// </summary>
     public string Street { get; set; }
 
     /// <summary>
-    /// Контакт.
+    /// Contact.
     /// </summary>
     public ContactInfo Contact { get; set; }
 }
 
 /// <summary>
-/// Сотрудник.
+/// Employee.
 /// </summary>
 public class Employee
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Контакты.
+    /// Contact details.
     /// </summary>
     public ContactInfo Contact { get; set; }
 }
 
 /// <summary>
-/// Подрядчик.
+/// Contractor.
 /// </summary>
 public class Contractor
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Контакты.
+    /// Contact details.
     /// </summary>
     public ContactInfo Contact { get; set; }
 }
 
 /// <summary>
-/// Персонал.
+/// Staff.
 /// </summary>
 public class Staff
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Домашние контакты.
+    /// Home contact details.
     /// </summary>
     public ContactInfo HomeContact { get; set; }
 
     /// <summary>
-    /// Рабочие контакты.
+    /// Work contact details.
     /// </summary>
     public ContactInfo WorkContact { get; set; }
 }
 
 /// <summary>
-/// Человек.
+/// Person.
 /// </summary>
 public class Person
 {
     /// <summary>
-    /// Идентификатор.
+    /// Identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Домашний адрес.
+    /// Home address.
     /// </summary>
     public PostalAddress HomeAddress { get; set; }
 }
 
 /// <summary>
-/// Продукт.
+/// Product.
 /// </summary>
 public class Product
 {
     /// <summary>
-    /// Идентификатор продукта.
+    /// Product identifier.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Название продукта.
+    /// Product name.
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    /// Характеристика.
+    /// Specification.
     /// </summary>
     public ProductSpec Spec { get; set; }
 }
 
 /// <summary>
-/// Характеристика продукта.
+/// Product specification.
 /// </summary>
 public class ProductSpec
 {
     /// <summary>
-    /// Название характеристики.
+    /// Specification name.
     /// </summary>
     public string Name { get; set; }
 }
