@@ -192,6 +192,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
     private void SetColumnComments(IConventionModelBuilder modelBuilder)
     {
         var allEntityTypes = modelBuilder.Metadata.GetEntityTypes().ToList();
+        var columnIndex = ColumnIndex.Build(allEntityTypes);
 
         _logger.LogDebug("AutoComments: processing columns for {Count} entity type(s)", allEntityTypes.Count);
 
@@ -253,9 +254,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
         bool HasConfiguredComment(IConventionProperty property)
         {
-            return allEntityTypes
-                .SelectMany(GetFlattenedProperties)
-                .Where(x => HasSameColumn(property, x))
+            return columnIndex.GetSiblings(property)
                 .Any(x => x.GetCommentConfigurationSource() is ConfigurationSource.Explicit or ConfigurationSource.DataAnnotation);
         }
 
@@ -272,11 +271,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         {
             if (comment == null) return;
 
-            var properties = allEntityTypes.SelectMany(GetFlattenedProperties)
-                .Where(x => HasSameColumn(entityProperty, x))
-                .ToList();
-
-            foreach (var property in properties)
+            foreach (var property in columnIndex.GetSiblings(entityProperty))
             {
                 property.SetComment(comment);
             }
@@ -286,9 +281,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         {
             if (entityProperty.DeclaringType.GetRootType().GetMappingStrategy() != RelationalAnnotationNames.TphMappingStrategy) return;
 
-            var properties = allEntityTypes.SelectMany(GetFlattenedProperties)
-                .Where(x => HasSameColumn(entityProperty, x))
-                .ToList();
+            var properties = columnIndex.GetSiblings(entityProperty);
 
             var comment = MergeComments(properties.Select(GetColumnComment));
 
@@ -300,9 +293,9 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
         void MergeTableSplittingComments(IConventionProperty entityProperty)
         {
-            var properties = allEntityTypes.SelectMany(GetFlattenedProperties)
-                .Where(x => HasSameColumn(entityProperty, x))
-                .ToList();
+            var properties = columnIndex.GetSiblings(entityProperty);
+
+            if (properties.Count == 1) return;
 
             var comment = MergeComments(properties.Select(GetColumnComment));
 
@@ -322,22 +315,6 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         return comment;
     }
 
-    private static IEnumerable<IConventionProperty> GetFlattenedProperties(IConventionTypeBase entityType)
-    {
-        foreach (var property in entityType.GetProperties())
-        {
-            yield return property;
-        }
-
-        foreach (var complexProperty in entityType.GetComplexProperties())
-        {
-            foreach (var property in GetFlattenedProperties(complexProperty.ComplexType))
-            {
-                yield return property;
-            }
-        }
-    }
-
     private static bool HasSameTable(IConventionTypeBase entityTypeA, IConventionTypeBase entityTypeB)
     {
         if (entityTypeA == entityTypeB) return true;
@@ -351,21 +328,6 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         }
 
         return storeObjectA.Value == storeObjectB.Value;
-    }
-
-    private static bool HasSameColumn(IConventionProperty propertyA, IConventionProperty propertyB)
-    {
-        if (propertyA == propertyB) return true;
-
-        var storeObjectA = StoreObjectIdentifier.Create(propertyA.DeclaringType, StoreObjectType.Table);
-        var storeObjectB = StoreObjectIdentifier.Create(propertyB.DeclaringType, StoreObjectType.Table);
-
-        if (storeObjectA == null || storeObjectB == null || storeObjectA.Value != storeObjectB.Value)
-        {
-            return false;
-        }
-
-        return propertyA.GetColumnName(storeObjectA.Value) == propertyB.GetColumnName(storeObjectB.Value);
     }
 
     private IEnumerable<IConventionEntityType> GetTableEntityTypes(IEnumerable<IConventionEntityType> entityTypes)
