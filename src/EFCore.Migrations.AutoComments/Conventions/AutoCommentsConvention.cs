@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Logging;
 
 namespace EFCore.Migrations.AutoComments.Conventions;
 
@@ -18,19 +19,26 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
     private readonly bool _combineInheritanceComments;
 
-    public AutoCommentsConvention(AutoCommentOptions options)
+    private readonly ILogger<AutoCommentsConvention> _logger;
+
+    public AutoCommentsConvention(AutoCommentOptions options, ILogger<AutoCommentsConvention> logger)
     {
         _xmlReader = XmlCommentsReader.Create(options.XmlFiles);
         _combineInheritanceComments = options.CombineInheritanceComments;
+        _logger = logger;
     }
 
     public void ProcessModelFinalizing(IConventionModelBuilder modelBuilder, IConventionContext<IConventionModelBuilder> context)
     {
+        _logger.LogDebug("AutoComments: starting model processing");
+
         SetEntityComments(modelBuilder);
 
         SetOwnedTypes(modelBuilder);
 
         SetColumnComments(modelBuilder);
+
+        _logger.LogDebug("AutoComments: model processing complete");
     }
 
     private void SetEntityComments(IConventionModelBuilder modelBuilder)
@@ -39,11 +47,21 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
         var tableTypes = GetTableEntityTypes(allEntityTypes).ToList();
 
+        _logger.LogDebug("AutoComments: processing {Count} table entity type(s)", tableTypes.Count);
+
         foreach (var entityType in tableTypes)
         {
-            if (HasConfiguredComment(entityType)) continue;
+            if (HasConfiguredComment(entityType))
+            {
+                _logger.LogDebug("AutoComments: skipping entity {Entity} — comment already configured", entityType.ClrType.Name);
+
+                continue;
+            }
 
             var comment = _xmlReader.GetTypeComment(entityType.ClrType);
+
+            _logger.LogDebug("AutoComments: entity {Entity} — comment {Status}", entityType.ClrType.Name,
+                comment != null ? "found" : "not found");
 
             SetTableComment(entityType, comment);
 
@@ -120,9 +138,16 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
     {
         var ownedEntityTypes = modelBuilder.Metadata.GetEntityTypes().Where(x => x.IsOwned()).ToList();
 
+        _logger.LogDebug("AutoComments: processing {Count} owned entity type(s)", ownedEntityTypes.Count);
+
         foreach (var ownedEntityType in ownedEntityTypes)
         {
-            if (HasConfiguredComment(ownedEntityType)) continue;
+            if (HasConfiguredComment(ownedEntityType))
+            {
+                _logger.LogDebug("AutoComments: skipping owned type {Entity} — comment already configured", ownedEntityType.ClrType.Name);
+
+                continue;
+            }
 
             var ownership = ownedEntityType.FindOwnership();
             var ownerType = ownership?.PrincipalEntityType;
@@ -158,9 +183,13 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
     {
         var allEntityTypes = modelBuilder.Metadata.GetEntityTypes().ToList();
 
+        _logger.LogDebug("AutoComments: processing columns for {Count} entity type(s)", allEntityTypes.Count);
+
         foreach (var entityType in allEntityTypes)
         {
             if (entityType.GetTableName() is null) continue;
+
+            _logger.LogDebug("AutoComments: processing columns for entity {Entity}", entityType.ClrType.Name);
 
             foreach (var property in entityType.GetProperties())
             {
@@ -172,9 +201,18 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
         void HandleProperty(IConventionProperty property)
         {
-            if (HasConfiguredComment(property)) return;
+            if (HasConfiguredComment(property))
+            {
+                _logger.LogDebug("AutoComments: skipping column {Entity}.{Property} — comment already configured",
+                    property.DeclaringType.ClrType.Name, property.Name);
+
+                return;
+            }
 
             var comment = GetColumnComment(property);
+
+            _logger.LogDebug("AutoComments: column {Entity}.{Property} — comment {Status}",
+                property.DeclaringType.ClrType.Name, property.Name, comment != null ? "found" : "not found");
 
             SetColumnComment(property, comment);
 

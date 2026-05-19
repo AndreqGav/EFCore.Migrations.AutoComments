@@ -3,6 +3,7 @@ using EFCore.Migrations.AutoComments.Extensions;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.Extensions.Logging;
 
 namespace EFCore.Migrations.AutoComments.Conventions;
 
@@ -13,22 +14,34 @@ internal class AutoCommentEnumDescriptionConvention : IModelFinalizingConvention
 {
     private readonly bool _allEnumsHasAutoCommentDescription;
 
+    private readonly ILogger<AutoCommentEnumDescriptionConvention> _logger;
+
     public const string Name = "AutoCommentEnumDescription";
 
-    public AutoCommentEnumDescriptionConvention(bool allEnumsHasAutoCommentDescription)
+    public AutoCommentEnumDescriptionConvention(bool allEnumsHasAutoCommentDescription,
+        ILogger<AutoCommentEnumDescriptionConvention> logger)
     {
         _allEnumsHasAutoCommentDescription = allEnumsHasAutoCommentDescription;
+        _logger = logger;
     }
 
     public void ProcessModelFinalizing(IConventionModelBuilder modelBuilder, IConventionContext<IConventionModelBuilder> context)
     {
-        foreach (var entityType in modelBuilder.Metadata.GetEntityTypes())
+        _logger.LogDebug("AutoCommentEnumDescription: starting model processing");
+
+        var entityTypes = modelBuilder.Metadata.GetEntityTypes();
+
+        foreach (var entityType in entityTypes)
         {
+            _logger.LogDebug("AutoCommentEnumDescription: processing entity {Entity}", entityType.ClrType.Name);
+
             foreach (var property in entityType.GetProperties())
             {
                 TrySetAutoCommentEnumDescriptionAnnotation(property);
             }
         }
+
+        _logger.LogDebug("AutoCommentEnumDescription: model processing complete");
     }
 
     private void TrySetAutoCommentEnumDescriptionAnnotation(IConventionProperty property)
@@ -49,7 +62,16 @@ internal class AutoCommentEnumDescriptionConvention : IModelFinalizingConvention
 
                 if (ignoreAutoEnumComment is null)
                 {
+                    _logger.LogDebug("AutoCommentEnumDescription: annotating {Entity}.{Property} — enum description enabled",
+                        property.DeclaringType.ClrType.Name, property.Name);
+
                     property.Builder.AddEnumDescriptionComment();
+                }
+                else
+                {
+                    _logger.LogDebug(
+                        "AutoCommentEnumDescription: skipping {Entity}.{Property} — IgnoreAutoCommentEnumDescription attribute",
+                        property.DeclaringType.ClrType.Name, property.Name);
                 }
             }
         }
@@ -59,6 +81,9 @@ internal class AutoCommentEnumDescriptionConvention : IModelFinalizingConvention
 
             if (autoEnumComment is not null)
             {
+                _logger.LogDebug("AutoCommentEnumDescription: annotating {Entity}.{Property} — AutoCommentEnumDescription attribute",
+                    property.DeclaringType.ClrType.Name, property.Name);
+
                 property.Builder.AddEnumDescriptionComment();
             }
         }
