@@ -53,14 +53,14 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         {
             if (HasConfiguredComment(entityType))
             {
-                _logger.LogDebug("AutoComments: skipping entity {Entity} â€” comment already configured", entityType.ClrType.Name);
+                _logger.LogDebug("AutoComments: skipping entity {Entity} Ð²Ð‚â€ comment already configured", entityType.ClrType.Name);
 
                 continue;
             }
 
             var comment = _xmlReader.GetTypeComment(entityType.ClrType);
 
-            _logger.LogDebug("AutoComments: entity {Entity} â€” comment {Status}", entityType.ClrType.Name,
+            _logger.LogDebug("AutoComments: entity {Entity} Ð²Ð‚â€ comment {Status}", entityType.ClrType.Name,
                 comment != null ? "found" : "not found");
 
             SetTableComment(entityType, comment);
@@ -144,7 +144,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         {
             if (HasConfiguredComment(ownedEntityType))
             {
-                _logger.LogDebug("AutoComments: skipping owned type {Entity} â€” comment already configured", ownedEntityType.ClrType.Name);
+                _logger.LogDebug("AutoComments: skipping owned type {Entity} Ð²Ð‚â€ comment already configured", ownedEntityType.ClrType.Name);
 
                 continue;
             }
@@ -155,7 +155,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
             if (ownerType is null || navigationProperty is null) continue;
 
-            // Åñëè Owned ìàïïèòñÿ íà ñâîþ òàáëèöó, òî óêàçûâàåì åé êîììåíòàðèé îò Owned
+            // Ð•ÑÐ»Ð¸ Owned Ð¼Ð°Ð¿Ð¿Ð¸Ñ‚ÑÑ Ð½Ð° ÑÐ²Ð¾ÑŽ Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñƒ, Ñ‚Ð¾ ÑƒÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ ÐµÐ¹ ÐºÐ¾Ð¼Ð¼ÐµÐ½Ñ‚Ð°Ñ€Ð¸Ð¹ Ð¾Ñ‚ Owned
             if (!HasSameTable(ownedEntityType, ownerType))
             {
                 var comment = _xmlReader.GetTypeComment(ownedEntityType.ClrType);
@@ -182,6 +182,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
     private void SetColumnComments(IConventionModelBuilder modelBuilder)
     {
         var allEntityTypes = modelBuilder.Metadata.GetEntityTypes().ToList();
+        var columnIndex = ColumnIndex.Build(allEntityTypes);
 
         _logger.LogDebug("AutoComments: processing columns for {Count} entity type(s)", allEntityTypes.Count);
 
@@ -203,7 +204,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         {
             if (HasConfiguredComment(property))
             {
-                _logger.LogDebug("AutoComments: skipping column {Entity}.{Property} â€” comment already configured",
+                _logger.LogDebug("AutoComments: skipping column {Entity}.{Property} Ð²Ð‚â€ comment already configured",
                     property.DeclaringType.ClrType.Name, property.Name);
 
                 return;
@@ -211,7 +212,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
             var comment = GetColumnComment(property);
 
-            _logger.LogDebug("AutoComments: column {Entity}.{Property} â€” comment {Status}",
+            _logger.LogDebug("AutoComments: column {Entity}.{Property} Ð²Ð‚â€ comment {Status}",
                 property.DeclaringType.ClrType.Name, property.Name, comment != null ? "found" : "not found");
 
             SetColumnComment(property, comment);
@@ -223,9 +224,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
         bool HasConfiguredComment(IConventionProperty property)
         {
-            return allEntityTypes
-                .SelectMany(GetFlattenedProperties)
-                .Where(x => HasSameColumn(property, x))
+            return columnIndex.GetSiblings(property)
                 .Any(x => x.GetCommentConfigurationSource() is ConfigurationSource.Explicit or ConfigurationSource.DataAnnotation);
         }
 
@@ -242,11 +241,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         {
             if (comment == null) return;
 
-            var properties = allEntityTypes.SelectMany(GetFlattenedProperties)
-                .Where(x => HasSameColumn(entityProperty, x))
-                .ToList();
-
-            foreach (var property in properties)
+            foreach (var property in columnIndex.GetSiblings(entityProperty))
             {
                 property.SetComment(comment);
             }
@@ -256,9 +251,7 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         {
             if (!IsTph(GetRootEntityType(entityProperty.DeclaringType))) return;
 
-            var properties = allEntityTypes.SelectMany(GetFlattenedProperties)
-                .Where(x => HasSameColumn(entityProperty, x))
-                .ToList();
+            var properties = columnIndex.GetSiblings(entityProperty);
 
             var comment = MergeComments(properties.Select(GetColumnComment));
 
@@ -270,9 +263,9 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
 
         void MergeTableSplittingComments(IConventionProperty entityProperty)
         {
-            var properties = allEntityTypes.SelectMany(GetFlattenedProperties)
-                .Where(x => HasSameColumn(entityProperty, x))
-                .ToList();
+            var properties = columnIndex.GetSiblings(entityProperty);
+
+            if (properties.Count == 1) return;
 
             var comment = MergeComments(properties.Select(GetColumnComment));
 
@@ -290,17 +283,6 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         if (string.IsNullOrEmpty(comment)) return null;
 
         return comment;
-    }
-
-    private static IEnumerable<IConventionProperty> GetFlattenedProperties(IConventionTypeBase entityType)
-    {
-        if (entityType is IConventionEntityType entity)
-        {
-            foreach (var property in entity.GetProperties())
-            {
-                yield return property;
-            }
-        }
     }
 
     private static bool HasSameTable(IConventionTypeBase entityTypeA, IConventionTypeBase entityTypeB)
@@ -321,21 +303,6 @@ internal class AutoCommentsConvention : IModelFinalizingConvention
         }
 
         return false;
-    }
-
-    private static bool HasSameColumn(IConventionProperty propertyA, IConventionProperty propertyB)
-    {
-        if (propertyA == propertyB) return true;
-
-        var storeObjectA = StoreObjectIdentifier.Create(propertyA.DeclaringEntityType, StoreObjectType.Table);
-        var storeObjectB = StoreObjectIdentifier.Create(propertyB.DeclaringEntityType, StoreObjectType.Table);
-
-        if (storeObjectA == null || storeObjectB == null || storeObjectA.Value != storeObjectB.Value)
-        {
-            return false;
-        }
-
-        return propertyA.GetColumnName(storeObjectA.Value) == propertyB.GetColumnName(storeObjectB.Value);
     }
 
     private IEnumerable<IConventionEntityType> GetTableEntityTypes(IEnumerable<IConventionEntityType> entityTypes)
