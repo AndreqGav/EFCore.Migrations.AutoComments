@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,7 +12,12 @@ internal class XmlCommentsReader
 {
     private const string NewLinePlaceholder = "\n";
 
-    private readonly XmlDocument _xmlDocument = new XmlDocument();
+    private static readonly string[] LineSeparators =
+    {
+        "\r\n", "\r", "\n"
+    };
+
+    private readonly ConcurrentDictionary<string, string> _comments = new(StringComparer.Ordinal);
 
     private readonly bool _autoLoadAssemblies;
 
@@ -27,7 +33,6 @@ internal class XmlCommentsReader
     private XmlCommentsReader(IReadOnlyCollection<string> xmlFiles)
     {
         _autoLoadAssemblies = false;
-        _xmlDocument.LoadXml("<root></root>");
 
         LoadXmlFiles(xmlFiles);
     }
@@ -35,7 +40,6 @@ internal class XmlCommentsReader
     private XmlCommentsReader()
     {
         _autoLoadAssemblies = true;
-        _xmlDocument.LoadXml("<root></root>");
     }
 
     public string GetTypeComment(Type type)
@@ -44,10 +48,8 @@ internal class XmlCommentsReader
 
         foreach (var t in TypeHelper.GetParentTypes(type))
         {
-            var node = _xmlDocument.SelectSingleNode($"//member[@name='T:{GetFullName(t)}']/summary");
-
-            if (node != null)
-                return NormalizeText(node.InnerText);
+            if (_comments.TryGetValue("T:" + GetFullName(t), out var comment))
+                return comment;
         }
 
         return null;
@@ -59,11 +61,8 @@ internal class XmlCommentsReader
 
         foreach (var t in TypeHelper.GetParentTypes(declaringType))
         {
-            var node = _xmlDocument.SelectSingleNode(
-                $"//member[@name='P:{GetFullName(t)}.{propertyName}']/summary");
-
-            if (node != null)
-                return NormalizeText(node.InnerText);
+            if (_comments.TryGetValue($"P:{GetFullName(t)}.{propertyName}", out var comment))
+                return comment;
         }
 
         return null;
@@ -73,10 +72,7 @@ internal class XmlCommentsReader
     {
         EnsureAssemblyLoaded(enumType);
 
-        var node = _xmlDocument.SelectSingleNode(
-            $"//member[@name='F:{GetFullName(enumType)}.{fieldName}']/summary");
-
-        return node != null ? NormalizeText(node.InnerText) : null;
+        return _comments.TryGetValue($"F:{GetFullName(enumType)}.{fieldName}", out var comment) ? comment : null;
     }
 
     private static string GetFullName(Type type) => type?.FullName?.Replace("+", ".") ?? string.Empty;
@@ -87,10 +83,7 @@ internal class XmlCommentsReader
             return null;
 
         return string.Join(NewLinePlaceholder, text.Trim()
-            .Split(new[]
-            {
-                "\r\n", "\r", "\n"
-            }, StringSplitOptions.None)
+            .Split(LineSeparators, StringSplitOptions.None)
             .Select(line => line.Trim()));
     }
 
@@ -102,14 +95,26 @@ internal class XmlCommentsReader
 
             if (fileInfo.Length == 0) continue;
 
-            var xmlDocumentPart = new XmlDocument();
-            using var commentStream = File.Open(xmlFile, FileMode.Open, FileAccess.Read, FileShare.Read);
-            xmlDocumentPart.Load(commentStream);
-
-            if (xmlDocumentPart.DocumentElement != null)
+            var doc = new XmlDocument();
+            using (var stream = File.Open(xmlFile, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                var importNode = _xmlDocument.ImportNode(xmlDocumentPart.DocumentElement, true);
-                _xmlDocument.DocumentElement?.AppendChild(importNode);
+                doc.Load(stream);
+            }
+
+            foreach (XmlElement member in doc.GetElementsByTagName("member"))
+            {
+                var name = member.GetAttribute("name");
+
+                if (string.IsNullOrEmpty(name)) continue;
+
+                var summary = member["summary"];
+
+                if (summary == null) continue;
+
+                var normalized = NormalizeText(summary.InnerText);
+
+                if (normalized != null)
+                    _comments.TryAdd(name, normalized);
             }
         }
     }
